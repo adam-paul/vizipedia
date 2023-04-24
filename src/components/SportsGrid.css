@@ -1,0 +1,93 @@
+/* SportsGrid.css */
+  body, html {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+  
+  .column {
+    float: left;
+    width: 25%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease-in-out;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+  }
+
+  .background-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-blend-mode: multiply;
+    z-index: 0;
+    pointer-events: none;
+  }
+  
+  .center-content {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .column:hover {
+    transform: scale(1.05);
+    z-index: 2;
+    filter: brightness(1.2);
+  }
+  
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  
+  .logo {
+    max-width: 90%;
+    max-height: 87vh;
+  }
+
+  .mlb-logo {
+    max-width: 80%; /* Smaller width */
+  }
+
+  .nba-logo {
+    max-width: 70%; /* Smaller width */
+    transform: translateY(5%); /* Slightly lower position */
+  }
+
+  .nfl-logo {
+    max-width: 65%; /* Smaller width */
+    transform: translateY(5%); /* Slightly lower position */
+  }
+
+  .nhl-logo {
+    max-width: 80%; /* Smaller width */
+    transform: translateY(5%); /* Slightly lower position */
+  }
+
+  .hovered::before { /* Add this block */
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+  }
+
+
+  @media screen and (max-width: 600px) {
+    .column {
+      width: 100%;
+    }
+  }
