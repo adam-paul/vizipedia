@@ -4,20 +4,6 @@
     padding: 0;
     overflow: hidden;
   }
-  
-  .column {
-    float: left;
-    width: 25%;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease-in-out;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    position: relative;
-  }
 
   .background-container {
     position: absolute;
@@ -31,6 +17,21 @@
     background-blend-mode: multiply;
     z-index: 0;
     pointer-events: none;
+  }
+  
+  .column {
+    float: left;
+    width: 25%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease-in-out;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    cursor: pointer;
   }
   
   .center-content {

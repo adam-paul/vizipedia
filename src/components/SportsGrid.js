@@ -40,6 +40,15 @@ const SportsGrid = () => {
     return '';
   };
 
+  const handlePanelClick = (sportName) => {
+    console.log(`${sportName} panel clicked`);
+
+    // Connect to the database and switch to the Dash page
+    // Replace this console.log with your actual logic to connect and switch
+    console.log(`Connecting to ${sportName} database...`);
+    // window.location.href = '/dash';
+  };
+
   return (
     <div className="row">
       {sports.map((sport) => (
@@ -48,6 +57,7 @@ const SportsGrid = () => {
           className={`column ${hoveredSport === sport.name ? 'hovered' : ''}`}
           onMouseEnter={() => setHoveredSport(sport.name)}
           onMouseLeave={() => setHoveredSport(null)}
+          onClick={() => handlePanelClick(sport.name)}
         >
           <div
             className={`background-container ${
