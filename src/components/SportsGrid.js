@@ -1,5 +1,6 @@
 // SportsGrid.js
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';  // Import the useHistory hook
 import './SportsGrid.css';
 
 const SportsGrid = () => {
@@ -8,13 +9,13 @@ const SportsGrid = () => {
           name: 'MLB',
           logo: 'https://i.imgur.com/baXlUao.png',
           backgroundImage: 'https://i.imgur.com/cQcPTQl.jpg',
-          hueOpacity: 0.6,
+          hueOpacity: 0.5,
         },
         {
           name: 'NBA',
           logo: 'https://i.imgur.com/UHxNjhi.png',
-          backgroundImage: 'https://i.imgur.com/mXA4pVx.jpg',
-          hueOpacity: 0.8,
+          backgroundImage: 'https://i.imgur.com/3ywYYtx.jpg',
+          hueOpacity: 0.2,
         },
         {
           name: 'NFL',
@@ -26,7 +27,7 @@ const SportsGrid = () => {
           name: 'NHL',
           logo: 'https://i.imgur.com/Aw9faWb.png',
           backgroundImage: 'https://i.imgur.com/ax3GfQs.jpg',
-          hueOpacity: 0.8,
+          hueOpacity: 0.4,
         },
       ];
 
@@ -40,13 +41,15 @@ const SportsGrid = () => {
     return '';
   };
 
+  // Create a history object
+  const navigate = useNavigate();
+
   const handlePanelClick = (sportName) => {
     console.log(`${sportName} panel clicked`);
-
-    // Connect to the database and switch to the Dash page
-    // Replace this console.log with your actual logic to connect and switch
     console.log(`Connecting to ${sportName} database...`);
-    // window.location.href = '/dash';
+      
+    // Navigate to the sport's data visualization page when its panel is clicked
+    navigate(`/${sportName.toLowerCase()}`);
   };
 
   return (
