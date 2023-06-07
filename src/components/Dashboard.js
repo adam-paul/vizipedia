@@ -16,7 +16,11 @@ const Dashboard = ({ sportName }) => {
   }
 
   const handleSeasonalDataClick = () => {
-    setDashboardTitle('Season Data Dashboard');
+    setDashboardTitle('Seasonal Data Dashboard');
+  }
+
+  const handleTeamDataClick = () => {
+    setDashboardTitle('Team Data Dashboard');
   }
 
   const handlePlayerDataClick = () => {
@@ -41,6 +45,7 @@ const Dashboard = ({ sportName }) => {
       <div className="sidebar">
         <button className="button" onClick={handleHomeDataClick}>{sportName} Home Dashboard</button>
         <button className="button" onClick={handleSeasonalDataClick}>Season Dashboard</button>
+        <button className="button" onClick={handleTeamDataClick}>Team Dashboard</button>
         <button className="button" onClick={handlePlayerDataClick}>Player Dashboard</button>
       </div>
       <div className="content">
