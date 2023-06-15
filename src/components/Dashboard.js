@@ -1,29 +1,64 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+// Dashboard.js
+import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { select } from 'd3';
 import './Dashboard.css';
 
 const Dashboard = ({ sportName }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [dashboardTitle, setDashboardTitle] = useState(`${sportName} Dashboard Landing Page`);
   const [inputValue, setInputValue] = useState('');
+  const [endpoint, setEndpoint] = useState(`/${sportName.toLowerCase()}/`);
+
+  // Define new state and refs for D3 and table names
+  const [tableNames, setTableNames] = useState([]);
+  const d3Container = useRef(null);
+
+  useEffect(() => {
+    fetch(location.pathname)
+      .then(response => response.json())
+      .then(data => setTableNames(data));
+  }, [location]);
+
+  useEffect(() => {
+    // Use D3 to display table names
+    if (tableNames.length > 0 && d3Container.current) {
+      const svg = select(d3Container.current);
+      
+      svg.selectAll('text')
+        .data(tableNames)
+        .join('text')
+        .attr('y', (d, i) => `${i * 20}px`)
+        .text(d => d);
+    }
+  }, [tableNames]);
 
   const handleVizipediaClick = () => {
     navigate('/');
   }
 
   const handleHomeDataClick = () => {
+    navigate(`/${sportName.toLowerCase()}/`);
+    setEndpoint(`/${sportName.toLowerCase()}/`);
     setDashboardTitle(`${sportName} Dashboard Landing Page`);
   }
 
   const handleSeasonalDataClick = () => {
+    navigate(`/${sportName.toLowerCase()}/season/`);
+    setEndpoint(`/${sportName.toLowerCase()}/season/`);
     setDashboardTitle('Seasonal Data Dashboard');
   }
 
   const handleTeamDataClick = () => {
+    navigate(`/${sportName.toLowerCase()}/team/`);
+    setEndpoint(`/${sportName.toLowerCase()}/team/`);
     setDashboardTitle('Team Data Dashboard');
   }
 
   const handlePlayerDataClick = () => {
+    navigate(`/${sportName.toLowerCase()}/player/`);
+    setEndpoint(`/${sportName.toLowerCase()}/player/`);
     setDashboardTitle('Player Data Dashboard');
   }
 
@@ -51,6 +86,7 @@ const Dashboard = ({ sportName }) => {
       <div className="content">
         <h2>{dashboardTitle}</h2>
         {/* Your D3.js code will go here */}
+        <svg ref={d3Container} />
         <form onSubmit={handleInputSubmit}>
           <input
             type="text"

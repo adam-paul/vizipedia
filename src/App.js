@@ -9,6 +9,9 @@ const App = () => {
     <Router>
       <Routes>
         <Route path="/nhl" element={<Dashboard sportName="NHL" />} />
+        <Route path="/nhl/season" element={<Dashboard sportName="NHL" />} />
+        <Route path="/nhl/team" element={<Dashboard sportName="NHL" />} />
+        <Route path="/nhl/player" element={<Dashboard sportName="NHL" />} />
         <Route path="/mlb" element={<Dashboard sportName="MLB" />} />
         <Route path="/nba" element={<Dashboard sportName="NBA" />} />
         <Route path="/nfl" element={<Dashboard sportName="NFL" />} />
