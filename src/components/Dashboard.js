@@ -109,7 +109,7 @@ const Dashboard = ({ sportName }) => {
       <div className="content">
         <h2>{dashboardTitle}</h2>
         {/* Your D3.js code will go here */}
-        <svg ref={d3Container} />
+        <svg ref={d3Container} className="svg-container" />
         <form onSubmit={handleInputSubmit}>
           <input
             type="text"

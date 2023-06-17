@@ -61,3 +61,9 @@
     font-size: 1.2em; /* adjust this to increase the font size in your input field */
     padding: 5px; /* add some padding inside the input field */
   }
+
+  .svg-container {
+    width: 90%;
+    height: 80%;
+    margin: auto;
+ }
