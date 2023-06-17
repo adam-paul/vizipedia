@@ -16,8 +16,15 @@ const Dashboard = ({ sportName }) => {
   const d3Container = useRef(null);
 
   useEffect(() => {
-    fetch(location.pathname)
-      .then(response => response.json())
+    console.log(`Fetching data from ${location.pathname}`);
+    fetch(`/api${location.pathname}`)
+
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
       .then(data => {
         console.log(`Received data from server at ${location.pathname}:`, data);
         console.log(`Data type: ${typeof data}`);
@@ -30,12 +37,16 @@ const Dashboard = ({ sportName }) => {
             setTableNames([data.message]);
           }
         }
+      })
+      .catch(error => {
+        console.log('There was an error fetching data:', error);
       });
   }, [location.pathname]);
 
   useEffect(() => {
     // Use D3 to display table names
     if (tableNames.length > 0 && d3Container.current) {
+      console.log(`Populating d3 container with table names: ${tableNames}`);
       const svg = select(d3Container.current);
       
       svg.selectAll('text')
@@ -99,6 +110,7 @@ const Dashboard = ({ sportName }) => {
         <h2>{dashboardTitle}</h2>
         {/* Your D3.js code will go here */}
         <svg ref={d3Container} />
+        console.log(`Populating d3 container with table names: ${tableNames}`);
         <form onSubmit={handleInputSubmit}>
           <input
             type="text"
