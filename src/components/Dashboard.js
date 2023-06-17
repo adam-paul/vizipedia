@@ -110,7 +110,6 @@ const Dashboard = ({ sportName }) => {
         <h2>{dashboardTitle}</h2>
         {/* Your D3.js code will go here */}
         <svg ref={d3Container} />
-        console.log(`Populating d3 container with table names: ${tableNames}`);
         <form onSubmit={handleInputSubmit}>
           <input
             type="text"
