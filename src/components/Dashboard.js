@@ -18,8 +18,20 @@ const Dashboard = ({ sportName }) => {
   useEffect(() => {
     fetch(location.pathname)
       .then(response => response.json())
-      .then(data => setTableNames(data));
-  }, [location]);
+      .then(data => {
+        console.log(`Received data from server at ${location.pathname}:`, data);
+        console.log(`Data type: ${typeof data}`);
+        if (Array.isArray(data)) {
+          setTableNames(data);
+        } else {
+          console.log('Non-array data branch triggered');
+          if (data.message) {
+            console.log('Received a message from the server:', data.message);
+            setTableNames([data.message]);
+          }
+        }
+      });
+  }, [location.pathname]);
 
   useEffect(() => {
     // Use D3 to display table names
