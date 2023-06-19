@@ -49,10 +49,18 @@ const Dashboard = ({ sportName }) => {
       console.log(`Populating d3 container with table names: ${tableNames}`);
       const svg = select(d3Container.current);
       
+      const svgWidth = +svg.style('width').replace('px', '');
+      const svgHeight = +svg.style('height').replace('px', '');
+
       svg.selectAll('text')
         .data(tableNames)
         .join('text')
-        .attr('y', (d, i) => `${i * 20}px`)
+        .attr('x', svgWidth / 2) // centering the text horizontally
+        .attr('y', (d, i, nodes) => {
+            // Normalize position for 'y' to spread the text elements vertically within the SVG
+            return `${svgHeight / (nodes.length + 1) * (i + 1)}px`; 
+        })
+        .attr('text-anchor', 'middle') // align the text around the middle
         .text(d => d);
     }
   }, [tableNames]);
