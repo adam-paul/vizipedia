@@ -11,3 +11,24 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@font-face {
+  font-family: 'Organetto-bold';
+  src: url('./fonts/organetto-bold.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Organetto-cndthin';
+  src: url('./fonts/organetto-cndthin.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Organetto-cndlight';
+  src: url('./fonts/organetto-cndlight.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}

@@ -109,16 +109,22 @@ const Dashboard = ({ sportName }) => {
       <h1 onClick={handleVizipediaClick} style={{ cursor: 'pointer' }}>Vizipedia</h1>
       </div>
       <div className="sidebar">
-        <button className="button" onClick={handleHomeDataClick}>{sportName} Home Dashboard</button>
-        <button className="button" onClick={handleSeasonalDataClick}>Season Dashboard</button>
-        <button className="button" onClick={handleTeamDataClick}>Team Dashboard</button>
-        <button className="button" onClick={handlePlayerDataClick}>Player Dashboard</button>
+        <img src="https://i.imgur.com/GE5Cb1Q.png" alt="" className="sidebar-img" />
+        <img src="https://i.imgur.com/UHxNjhi.png" alt="" className="sidebar-img" />
+        <img src="https://i.imgur.com/majPZ1v.png" alt="" className="sidebar-img" />
+        <img src="https://i.imgur.com/Aw9faWb.png" alt="" className="sidebar-img" />
+        <div className="sidebar-buttons">
+          <button className="button" onClick={handleHomeDataClick}>{sportName} Home Dashboard</button>
+          <button className="button" onClick={handleSeasonalDataClick}>Season Dashboard</button>
+          <button className="button" onClick={handleTeamDataClick}>Team Dashboard</button>
+          <button className="button" onClick={handlePlayerDataClick}>Player Dashboard</button>
+        </div>
       </div>
       <div className="content">
         <h2>{dashboardTitle}</h2>
         {/* Your D3.js code will go here */}
         <svg ref={d3Container} className="svg-container" />
-        <form onSubmit={handleInputSubmit}>
+        <form className="input-form" onSubmit={handleInputSubmit}>
           <input
             type="text"
             value={inputValue}

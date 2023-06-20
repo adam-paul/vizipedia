@@ -7,7 +7,7 @@ const SportsGrid = () => {
     const sports = [
         {
           name: 'MLB',
-          logo: 'https://i.imgur.com/baXlUao.png',
+          logo: 'https://i.imgur.com/GE5Cb1Q.png',
           backgroundImage: 'https://i.imgur.com/cQcPTQl.jpg',
           hueOpacity: 0.5,
         },
