@@ -114,7 +114,7 @@ const Dashboard = ({ sportName }) => {
         <img src="https://i.imgur.com/majPZ1v.png" alt="" className="sidebar-img" />
         <img src="https://i.imgur.com/Aw9faWb.png" alt="" className="sidebar-img" />
         <div className="sidebar-buttons">
-          <button className="button" onClick={handleHomeDataClick}>{sportName} Home Dashboard</button>
+          <button className="button" onClick={handleHomeDataClick}>{sportName} Dashboard</button>
           <button className="button" onClick={handleSeasonalDataClick}>Season Dashboard</button>
           <button className="button" onClick={handleTeamDataClick}>Team Dashboard</button>
           <button className="button" onClick={handlePlayerDataClick}>Player Dashboard</button>
