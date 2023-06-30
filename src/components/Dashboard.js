@@ -2,6 +2,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { select } from 'd3';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faRightToBracket } from '@fortawesome/free-solid-svg-icons';
 import './Dashboard.css';
 
 const Dashboard = ({ sportName }) => {
@@ -131,6 +133,9 @@ const Dashboard = ({ sportName }) => {
             onChange={handleInputChange}
             placeholder="...what would you like to see?"
           />
+          <button type="submit" className="send-button">
+            <FontAwesomeIcon icon={faRightToBracket} />
+          </button>
         </form>
       </div>
     </div>
