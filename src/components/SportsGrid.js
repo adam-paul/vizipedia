@@ -49,7 +49,7 @@ const SportsGrid = () => {
     console.log(`Connecting to ${sportName} database...`);
       
     // Navigate to the sport's data visualization page when its panel is clicked
-    navigate(`/${sportName.toLowerCase()}`);
+    navigate(`/${sportName.toLowerCase()}/`);
   };
 
   return (
