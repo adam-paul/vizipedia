@@ -2,13 +2,22 @@
 import React, { useState, useEffect } from 'react';
 
 const SeasonDashboard = ({ sportName }) => {
-    const [selectedSeason, setSelectedSeason] = useState('20182019'); // Default value
+    const [selectedSeason, setSelectedSeason] = useState(''); // Default value
+    const [seasons, setSeasons] = useState([]); // For holding all seasons
     const [teamData, setTeamData] = useState([]);
 
-    // Function to handle season selection
-    const handleSeasonChange = (event) => {
-        setSelectedSeason(event.target.value);
-    };
+    // Fetch all unique seasons
+    useEffect(() => {
+      fetch(`/api/${sportName.toLowerCase()}/unique_seasons/`)
+      .then(response => response.json())
+      .then(data => {
+          setSeasons(data.seasons);
+          if (data.seasons.length > 0) {
+              setSelectedSeason(data.seasons[0]); // Set the first season as default
+          }
+      })
+      .catch(error => console.log('There was an error fetching seasons:', error));
+    }, [sportName]);
 
     // Fetch data for the selected season
     useEffect(() => {
@@ -18,15 +27,18 @@ const SeasonDashboard = ({ sportName }) => {
         .catch(error => console.log('There was an error fetching data:', error));
     }, [selectedSeason, sportName]); // Re-run this effect when selectedSeason or sportName changes
 
+    // Function to handle season selection
+    const handleSeasonChange = (event) => {
+      setSelectedSeason(event.target.value);
+    };
+
     return (
       <div>
         <h2></h2>
-        {/* Include team-specific visualizations */}
+        {/* Include season-specific visualizations */}
         {/* Dropdown to select the season */}
         <select value={selectedSeason} onChange={handleSeasonChange}>
-            <option value="20182019">2018-2019</option>
-            <option value="20192020">2019-2020</option>
-            {/* ... other options ... */}
+            {seasons.map((season, index) => <option key={index} value={season}>{season}</option>)}
         </select>
       </div>
     );
