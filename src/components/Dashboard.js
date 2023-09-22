@@ -84,9 +84,6 @@ const Dashboard = ({ sportName }) => {
           <Route path={`player/*`} element={<PlayerDashboard sportName={sportName} />} />
         </Routes>
 
-        {/* D3.js code will go here */}
-        <svg className="svg-container" />
-
         {/* Input form for NLP search */}
         <form className="input-form" onSubmit={handleInputSubmit}>
           <input

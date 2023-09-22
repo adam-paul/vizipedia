@@ -1,10 +1,18 @@
 // SeasonDashboard.js
 import React, { useState, useEffect } from 'react';
+import StatPathViz from './visualizations/StatPathViz';
 
 const SeasonDashboard = ({ sportName }) => {
     const [selectedSeason, setSelectedSeason] = useState(''); // Default value
     const [seasons, setSeasons] = useState([]); // For holding all seasons
-    const [teamData, setTeamData] = useState([]);
+    const [finalData, setFinalData] = useState([]);
+    const [winningTeam, setWinningTeam] = useState(null);
+    const [statCols, setStatCols] = useState([]);
+
+    // Function to handle season selection
+    const handleSeasonChange = (event) => {
+      setSelectedSeason(event.target.value);
+    };
 
     // Fetch all unique seasons
     useEffect(() => {
@@ -13,33 +21,38 @@ const SeasonDashboard = ({ sportName }) => {
       .then(data => {
           setSeasons(data.seasons);
           if (data.seasons.length > 0) {
-              setSelectedSeason(data.seasons[0]); // Set the first season as default
+              setSelectedSeason(data.seasons[data.seasons.length - 1]); // Default season
           }
       })
       .catch(error => console.log('There was an error fetching seasons:', error));
     }, [sportName]);
 
-    // Fetch data for the selected season
     useEffect(() => {
-        fetch(`/api/${sportName.toLowerCase()}/team/?season=${selectedSeason}`)
-        .then(response => response.json())
-        .then(data => setTeamData(data))
-        .catch(error => console.log('There was an error fetching data:', error));
-    }, [selectedSeason, sportName]); // Re-run this effect when selectedSeason or sportName changes
-
-    // Function to handle season selection
-    const handleSeasonChange = (event) => {
-      setSelectedSeason(event.target.value);
-    };
+      // Remove the hyphen from the selectedSeason
+      const formattedSeason = selectedSeason.replace('-', '');
+      fetch(`/api/${sportName.toLowerCase()}/stat_path_preprocess/${formattedSeason}/`)
+      .then(response => response.json())
+      .then(data => {
+        console.log("Data fetched:", data);
+        setFinalData(data.final_data);
+        setWinningTeam(data.winning_team);
+        setStatCols(data.stat_cols);
+        console.log("finalData after set:", finalData);
+        console.log("winningTeam after set:", winningTeam);
+        console.log("statCols after set:", statCols);
+      })
+      .catch(error => console.log('There was an error fetching stat path data:', error));
+    }, [selectedSeason, sportName]);
 
     return (
       <div>
-        <h2></h2>
         {/* Include season-specific visualizations */}
         {/* Dropdown to select the season */}
         <select value={selectedSeason} onChange={handleSeasonChange}>
             {seasons.map((season, index) => <option key={index} value={season}>{season}</option>)}
         </select>
+        {/* Include the SVG element where the D3 visualization will be rendered */}
+        <StatPathViz finalData={finalData} winningTeam={winningTeam} statCols={statCols} />
       </div>
     );
   };
