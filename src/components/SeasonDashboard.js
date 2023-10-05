@@ -1,4 +1,6 @@
 // SeasonDashboard.js
+import './SeasonDashboard.css';
+
 import React, { useState, useEffect } from 'react';
 import StatPathViz from './visualizations/StatPathViz';
 
@@ -21,7 +23,7 @@ const SeasonDashboard = ({ sportName }) => {
       .then(data => {
           setSeasons(data.seasons);
           if (data.seasons.length > 0) {
-              setSelectedSeason(data.seasons[data.seasons.length - 1]); // Default season
+              setSelectedSeason(data.seasons[data.seasons.length - 1]); // Default to present season
           }
       })
       .catch(error => console.log('There was an error fetching seasons:', error));
@@ -45,14 +47,14 @@ const SeasonDashboard = ({ sportName }) => {
     }, [selectedSeason, sportName]);
 
     return (
-      <div>
+      <div className="season-dashboard">
         {/* Include season-specific visualizations */}
         {/* Dropdown to select the season */}
-        <select value={selectedSeason} onChange={handleSeasonChange}>
+        <select className="season-select" value={selectedSeason} onChange={handleSeasonChange}>
             {seasons.map((season, index) => <option key={index} value={season}>{season}</option>)}
         </select>
         {/* Include the SVG element where the D3 visualization will be rendered */}
-        <StatPathViz finalData={finalData} winningTeam={winningTeam} statCols={statCols} />
+        <StatPathViz finalData={finalData} winningTeam={winningTeam} statCols={statCols} season={selectedSeason} />
       </div>
     );
   };

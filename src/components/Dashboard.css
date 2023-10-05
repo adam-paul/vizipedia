@@ -58,6 +58,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 20px; 
+  overflow-y: auto;
 }
   
 .header {
@@ -94,7 +95,7 @@
 .input-form {
   display: flex;
   width: 75%; 
-  margin: 0 auto;
+  margin-top: 5px;
 }
 
 .input-form input {
@@ -136,4 +137,9 @@
   width: 90%;
   height: 80%;
   margin: auto;
+}
+
+.title {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
 }

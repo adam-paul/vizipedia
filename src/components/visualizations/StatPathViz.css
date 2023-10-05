@@ -1,0 +1,14 @@
+svg {
+  overflow: visible;
+}
+
+.tooltip {
+  position: absolute;
+  background-color: white;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  pointer-events: none;  /* Prevents the tooltip from interfering with mouse events */
+  opacity: 0; /* Start off hidden */
+  transition: opacity 0.2s;
+}

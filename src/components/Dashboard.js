@@ -76,7 +76,7 @@ const Dashboard = ({ sportName }) => {
 
       {/* Dashboard content (infinite scroll) */}
       <div className="content">
-        <h2>{dashboardTitle}</h2>
+        <h2 className="title">{dashboardTitle}</h2>
 
         <Routes>
           <Route path={`season/*`} element={<SeasonDashboard sportName={sportName} />} />
