@@ -1,6 +1,9 @@
 // SportsGrid.js
+
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';  // Import the useHistory hook
+import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLock } from '@fortawesome/free-solid-svg-icons';
 import './SportsGrid.css';
 
 const SportsGrid = () => {
@@ -41,13 +44,25 @@ const SportsGrid = () => {
     return '';
   };
 
+  // Temp function to set "under construction" sports/site sections
+  const isSportLocked = (sportName) => {
+    // Array of sports that are locked for now
+    const lockedSports = ['MLB', 'NBA', 'NFL'];
+    return lockedSports.includes(sportName);
+  };  
+
   // Create a history object
   const navigate = useNavigate();
 
   const handlePanelClick = (sportName) => {
+    if (isSportLocked(sportName)) {
+      console.log(`${sportName} dashboard is unavailable at the moment.`);
+      return;
+    }
+  
     console.log(`${sportName} panel clicked`);
     console.log(`Connecting to ${sportName} database...`);
-      
+    
     // Navigate to the sport's data visualization page when its panel is clicked
     navigate(`/${sportName.toLowerCase()}/`);
   };
@@ -78,6 +93,12 @@ const SportsGrid = () => {
                 src={sport.logo}
                 alt={`${sport.name} logo`}
               />
+              {isSportLocked(sport.name) && (
+                <div className="lock-container">
+                  <FontAwesomeIcon icon={faLock} className="lock-icon" />
+                  <span className="coming-soon-text">Coming Soon</span>
+                </div>
+              )}
             </center>
           </div>  
         </div>
