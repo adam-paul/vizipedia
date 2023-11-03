@@ -46,8 +46,10 @@ const SeasonTimeline = ({ season, seasons, onSeasonClick }) => {
     const margins = { top: 20, right: 20, bottom: 20, left: 20 };
     const viewportWidth = svgRef.current.parentElement.clientWidth;
 
-    // Clear the previous SVG content
-    svg.selectAll("*").remove();
+    // Update existing elements
+    const ticks = svg.selectAll(".tick").data(seasons);
+    ticks.exit().remove();
+    ticks.enter().append("g").attr("class", "tick");
 
     // Create the axis scale
     const xScale = d3.scaleBand()

@@ -6,8 +6,10 @@ import React, { useState, useEffect } from 'react';
 import StatPathViz from './visualizations/StatPathViz';
 import SeasonTimeline from './visualizations/SeasonTimeline';
 
+const MemoizedOption = React.memo(({ value }) => <option value={value}>{value}</option>);
+
 const SeasonDashboard = ({ sportName }) => {
-    const [selectedSeason, setSelectedSeason] = useState('2022-2023'); // Default value
+    const [selectedSeason, setSelectedSeason] = useState(''); // Default value
     const [seasons, setSeasons] = useState([]); // For holding all seasons
     const [finalData, setFinalData] = useState([]);
     const [winningTeam, setWinningTeam] = useState(null);
@@ -54,7 +56,7 @@ const SeasonDashboard = ({ sportName }) => {
         {/* Include season-specific visualizations */}
         {/* Dropdown to select the season */}
         <select className="season-select" value={selectedSeason} onChange={handleSeasonChange}>
-          {seasons.map((season, index) => <option key={index} value={season}>{season}</option>)}
+          {seasons.map((season, index) => <MemoizedOption key={index} value={season} />)}
         </select>
         {/* d3 visualizations */}
         <SeasonTimeline season={selectedSeason} seasons={seasons} onSeasonClick={handleSeasonChangeFromTimeline} />
