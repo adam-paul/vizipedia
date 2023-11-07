@@ -2,8 +2,8 @@
 
 .svg-container {
     width: 80%; /* Adjust this value based on how much visible width you want at once */
-    height: 5%;
-    margin: 10px;
+    height: 100px;
+    /* margin: 10px; */
     overflow-x: auto;
     overflow-y: hidden;
 }

@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 import './SeasonTimeline.css';
 
-const SeasonTimeline = ({ season, seasons, onSeasonClick }) => {
+const SeasonTimeline = ({ season, seasons, winningTeams, onSeasonClick }) => {
   const svgRef = useRef();  // Create a reference for the SVG element
   const seasonWidth = 100; // Width for each season including padding
   const totalWidth = seasons.length * seasonWidth; // Total width of the timeline
@@ -15,12 +15,19 @@ const SeasonTimeline = ({ season, seasons, onSeasonClick }) => {
       return;  // Exit the effect early if the data isn't ready
     }
 
+    // Check if the winningTeams data is ready and contains the current season
+    if (Object.keys(winningTeams).length === 0 || !winningTeams.hasOwnProperty(season)) {
+      return;  // Exit the effect early if the winningTeams data isn't ready or doesn't contain the current season
+    }
+
     // Function to handle season selection
     const handleSeasonClick = (newSeason) => {
-        if (onSeasonClick) {
-          onSeasonClick(newSeason);
-        }
-      };
+      console.log("Type of newSeason:", typeof newSeason); // Log the type
+      console.log("Value of newSeason:", newSeason); // Log the value
+      if (onSeasonClick) {
+        onSeasonClick(newSeason);
+      }
+    };
 
     const smoothScrollTo = (element, target, duration) => {
       const start = element.scrollLeft;
@@ -45,6 +52,8 @@ const SeasonTimeline = ({ season, seasons, onSeasonClick }) => {
     const svg = d3.select(svgRef.current);
     const margins = { top: 20, right: 20, bottom: 20, left: 20 };
     const viewportWidth = svgRef.current.parentElement.clientWidth;
+    const svgHeight = svgRef.current.parentElement.getBoundingClientRect().height;
+    const plotHeight = svgHeight - margins.top - margins.bottom;  
 
     // Update existing elements
     const ticks = svg.selectAll(".tick").data(seasons);
@@ -58,11 +67,11 @@ const SeasonTimeline = ({ season, seasons, onSeasonClick }) => {
                       .padding(0.1);
 
     // Create the X axis
-    const xAxis = d3.axisTop(xScale);
+    const xAxis = d3.axisBottom(xScale);
 
     // Append the X axis to the SVG
     svg.append("g")
-        .attr("transform", `translate(${margins.left}, ${margins.top})`)
+        .attr("transform", `translate(${margins.left}, ${plotHeight})`)
         .call(xAxis)
         .selectAll("text")
         .attr("dy", ".35em")
@@ -82,6 +91,22 @@ const SeasonTimeline = ({ season, seasons, onSeasonClick }) => {
           handleSeasonClick(selectedSeason);
         });
 
+    // Add images for winning teams above the ticks
+    svg.selectAll(".team-logo").data(seasons)
+       .enter()
+       .append("image")
+       .attr("class", "team-logo")
+       .attr("href", d => `https://i.imgur.com/${winningTeams[d][1]}.png`)
+       .attr("x", d => xScale(d) + (xScale.bandwidth() / 2)) // Center the logo above the tick; adjust as needed
+       .attr("y", plotHeight - 45) 
+       .attr("width", 40) 
+       .attr("height", 40)
+       .style("cursor", "pointer")
+       .on("click", function(d) {
+          const clickedSeason = d3.select(this).datum();
+          handleSeasonClick(clickedSeason);
+        });
+
     // Calculate the x-coordinate of the selected season
     const seasonX = xScale(season);
     // Find the centering offset, which is half of the timeline viewport width
@@ -90,11 +115,11 @@ const SeasonTimeline = ({ season, seasons, onSeasonClick }) => {
     // svgRef.current.parentElement.scrollLeft = seasonX - centerOffset;
     smoothScrollTo(svgRef.current.parentElement, seasonX - centerOffset, 200);
 
-  }, [seasons, season, onSeasonClick, totalWidth]);  // Re-run this effect when seasons or the selected season changes
+  }, [season, seasons, winningTeams, onSeasonClick, totalWidth]);  // Re-run this effect when props change
 
   return (
     <div className="svg-container">
-        <svg ref={svgRef} width={totalWidth} height="50%"></svg>
+        <svg ref={svgRef} width={totalWidth}></svg>
     </div>
   );
 };

@@ -12,7 +12,8 @@ const SeasonDashboard = ({ sportName }) => {
     const [selectedSeason, setSelectedSeason] = useState(''); // Default value
     const [seasons, setSeasons] = useState([]); // For holding all seasons
     const [finalData, setFinalData] = useState([]);
-    const [winningTeam, setWinningTeam] = useState(null);
+    const [winningTeam, setWinningTeam] = useState('');
+    const [winningTeams, setWinningTeams] = useState({});
     const [statCols, setStatCols] = useState([]);
 
     // Function to handle season selection
@@ -38,6 +39,17 @@ const SeasonDashboard = ({ sportName }) => {
       .catch(error => console.log('There was an error fetching seasons:', error));
     }, [sportName]);
 
+    // Generate winners dict
+    useEffect(() => {
+      fetch(`/api/${sportName.toLowerCase()}/stanley_cup_winners/`)
+      .then(response => response.json())
+      .then(data => {
+        setWinningTeams(data);
+      })
+      .catch(error => console.log('There was an error fetching stanley cup winners:', error));
+    }, [sportName]);
+
+    // Fetch the stat path data for the selected season
     useEffect(() => {
       // Remove the hyphen from the selectedSeason
       const formattedSeason = selectedSeason.replace('-', '');
@@ -59,8 +71,18 @@ const SeasonDashboard = ({ sportName }) => {
           {seasons.map((season, index) => <MemoizedOption key={index} value={season} />)}
         </select>
         {/* d3 visualizations */}
-        <SeasonTimeline season={selectedSeason} seasons={seasons} onSeasonClick={handleSeasonChangeFromTimeline} />
-        <StatPathViz finalData={finalData} winningTeam={winningTeam} statCols={statCols} season={selectedSeason} />
+        <SeasonTimeline 
+          season={selectedSeason} 
+          seasons={seasons}
+          winningTeams={winningTeams} 
+          onSeasonClick={handleSeasonChangeFromTimeline} 
+        />
+        <StatPathViz 
+          finalData={finalData} 
+          winningTeam={winningTeam} 
+          statCols={statCols} 
+          season={selectedSeason} 
+        />
       </div>
     );
   };
