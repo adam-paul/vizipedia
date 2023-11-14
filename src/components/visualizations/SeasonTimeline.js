@@ -119,7 +119,7 @@ const SeasonTimeline = ({ season, seasons, winningTeams, onSeasonClick }) => {
 
   return (
     <div className="svg-container">
-        <svg ref={svgRef} width={totalWidth}></svg>
+        <svg ref={svgRef} width={totalWidth} height="10vh"></svg>
     </div>
   );
 };

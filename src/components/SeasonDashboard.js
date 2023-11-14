@@ -3,14 +3,16 @@
 import './SeasonDashboard.css';
 
 import React, { useState, useEffect } from 'react';
-import StatPathViz from './visualizations/StatPathViz';
 import SeasonTimeline from './visualizations/SeasonTimeline';
+import DashboardStats from './visualizations/DashboardStats';
+import StatPathViz from './visualizations/StatPathViz';
 
 const MemoizedOption = React.memo(({ value }) => <option value={value}>{value}</option>);
 
 const SeasonDashboard = ({ sportName }) => {
     const [selectedSeason, setSelectedSeason] = useState(''); // Default value
     const [seasons, setSeasons] = useState([]); // For holding all seasons
+    const [goalsPerGameData, setGoalsPerGameData] = useState([]); // Goals per game data
     const [finalData, setFinalData] = useState([]);
     const [winningTeam, setWinningTeam] = useState('');
     const [winningTeams, setWinningTeams] = useState({});
@@ -38,6 +40,9 @@ const SeasonDashboard = ({ sportName }) => {
       })
       .catch(error => console.log('There was an error fetching seasons:', error));
     }, [sportName]);
+ 
+    // Remove the hyphen from the selectedSeason
+    const formattedSeason = selectedSeason.replace('-', '');
 
     // Generate winners dict
     useEffect(() => {
@@ -49,10 +54,22 @@ const SeasonDashboard = ({ sportName }) => {
       .catch(error => console.log('There was an error fetching stanley cup winners:', error));
     }, [sportName]);
 
+    // Fetch goals per game data for selected season
+    useEffect(() => {
+      fetch(`/api/${sportName.toLowerCase()}/seasons_gpg/`)
+        .then(response => response.json())
+        .then(data => {
+          const formattedData = Object.entries(data).map(([season, avgGoals]) => ({
+            seasons: season,
+            avgGoals
+          }));
+          setGoalsPerGameData(formattedData);
+        })
+        .catch(error => console.log('There was an error fetching goals per game data:', error));
+    }, [sportName]);
+
     // Fetch the stat path data for the selected season
     useEffect(() => {
-      // Remove the hyphen from the selectedSeason
-      const formattedSeason = selectedSeason.replace('-', '');
       fetch(`/api/${sportName.toLowerCase()}/stat_path_preprocess/${formattedSeason}/`)
       .then(response => response.json())
       .then(data => {
@@ -61,7 +78,7 @@ const SeasonDashboard = ({ sportName }) => {
         setStatCols(data.stat_cols);
       })
       .catch(error => console.log('There was an error fetching stat path data:', error));
-    }, [selectedSeason, sportName]);
+    }, [sportName, selectedSeason, formattedSeason]);
 
     return (
       <div className="season-dashboard">
@@ -77,6 +94,10 @@ const SeasonDashboard = ({ sportName }) => {
           winningTeams={winningTeams} 
           onSeasonClick={handleSeasonChangeFromTimeline} 
         />
+        <DashboardStats 
+          seasonsData={goalsPerGameData} 
+          selectedSeason={selectedSeason} 
+        />        
         <StatPathViz 
           finalData={finalData} 
           winningTeam={winningTeam} 
