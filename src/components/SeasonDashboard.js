@@ -13,6 +13,7 @@ const SeasonDashboard = ({ sportName }) => {
     const [selectedSeason, setSelectedSeason] = useState(''); // Default value
     const [seasons, setSeasons] = useState([]); // For holding all seasons
     const [goalsPerGameData, setGoalsPerGameData] = useState([]); // Goals per game data
+    const [totalPointsData, setTotalPointsData] = useState([]); // Total season points data
     const [finalData, setFinalData] = useState([]);
     const [winningTeam, setWinningTeam] = useState('');
     const [winningTeams, setWinningTeams] = useState({});
@@ -68,6 +69,20 @@ const SeasonDashboard = ({ sportName }) => {
         .catch(error => console.log('There was an error fetching goals per game data:', error));
     }, [sportName]);
 
+    // Fetch total points data for selected season
+    useEffect(() => {
+      fetch(`/api/${sportName.toLowerCase()}/total_points/`)
+        .then(response => response.json())
+        .then(data => {
+          const formattedData = Object.entries(data).map(([season, totalPoints]) => ({
+            seasons: season,
+            totalPoints
+          }));
+          setTotalPointsData(formattedData);
+        })
+        .catch(error => console.log('There was an error fetching total points data:', error));
+    }, [sportName]);
+
     // Fetch the stat path data for the selected season
     useEffect(() => {
       fetch(`/api/${sportName.toLowerCase()}/stat_path_preprocess/${formattedSeason}/`)
@@ -90,14 +105,15 @@ const SeasonDashboard = ({ sportName }) => {
         {/* d3 visualizations */}
         <SeasonTimeline 
           season={selectedSeason} 
-          seasons={seasons}
+          seasons={seasons} 
           winningTeams={winningTeams} 
           onSeasonClick={handleSeasonChangeFromTimeline} 
         />
         <DashboardStats 
-          seasonsData={goalsPerGameData} 
           selectedSeason={selectedSeason} 
-        />        
+          gpgData={goalsPerGameData} 
+          totalPointsData={totalPointsData} 
+        />
         <StatPathViz 
           finalData={finalData} 
           winningTeam={winningTeam} 

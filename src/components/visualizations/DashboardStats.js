@@ -5,11 +5,11 @@ import './DashboardStats.css';
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 
-const DashboardStats = ({ seasonsData, selectedSeason }) => {
+const DashboardStats = ({ selectedSeason, gpgData, totalPointsData }) => {
   const d3Container = useRef();
 
   useEffect(() => {
-    if (seasonsData && d3Container.current) {
+    if (gpgData && d3Container.current) {
       // Clear any previous SVGs in the container
       d3.select(d3Container.current).selectAll("*").remove();
       
@@ -18,16 +18,17 @@ const DashboardStats = ({ seasonsData, selectedSeason }) => {
       const height = 300 - margin.top - margin.bottom; 
 
       // Create SVG element
+      const svgWidth = (width + margin.left + margin.right) * 2;
       const svg = d3.select(d3Container.current)
                     .append('svg')
-                    .attr('width', width + margin.left + margin.right)
+                    .attr('width', svgWidth)
                     .attr('height', height + margin.top + margin.bottom)
                     .append('g')
                     .attr('transform', `translate(${margin.left},${margin.top})`);
       
       // Draw Goals Per Game box for selected season
       const boxSize = 120; // Size of the square box for Goals per Game
-      const selectedSeasonData = seasonsData.find(d => d.seasons === selectedSeason);
+      const selectedSeasonData = gpgData.find(d => d.seasons === selectedSeason);
       svg.append('rect')
           .attr('width', boxSize)
           .attr('height', (boxSize * 0.8))
@@ -59,12 +60,12 @@ const DashboardStats = ({ seasonsData, selectedSeason }) => {
 
       // Scales for the line chart
       const xScale = d3.scaleBand()
-                        .domain(seasonsData.map(d => d.seasons))
+                        .domain(gpgData.map(d => d.seasons))
                         .range([0 + innerPadding, timelineWidth - innerPadding])
                         .padding(0.1);
 
       const yScale = d3.scaleLinear()
-                        .domain([0, d3.max(seasonsData, d => d.avgGoals)])
+                        .domain([0, d3.max(gpgData, d => d.avgGoals)])
                         .range([timelineHeight - innerPadding, 0 + innerPadding]);
 
       // Line chart for average goals
@@ -86,23 +87,100 @@ const DashboardStats = ({ seasonsData, selectedSeason }) => {
       svg.append('g')
           .attr('transform', `translate(${boxSize + margin.right}, 0)`)
           .append('path')
-          .datum(seasonsData)
+          .datum(gpgData)
           .attr('fill', 'none')
           .attr('stroke', 'steelblue')
           .attr('stroke-width', 2)
           .attr('d', line);
 
-      // Semi-transparent bar for the selected season
-      //if (selectedSeasonData) {
-        //svg.append('rect')
-            //.attr('x', xScale(selectedSeason) + boxSize + margin.right)
-            //.attr('width', xScale.bandwidth())
-            //.attr('y', 0)
-            //.attr('height', timelineHeight)
-            //.attr('fill', 'rgba(255, 0, 0, 0.5)');
-      //}
+      if (selectedSeasonData) {
+      const timelineOffset = boxSize + margin.right; // Total offset including the GPG box and margin
+      const selectedSeasonX = xScale(selectedSeason) + timelineOffset;
+        svg.append('rect')
+            .attr('x', selectedSeasonX)
+            .attr('width', 2) // Narrow width
+            .attr('y', 0)
+            .attr('height', timelineHeight)
+            .attr('fill', 'rgba(255, 0, 0, 0.5)'); // Semi-transparent red
+      }
+
+      // Calculate the offset for the second box (Total Points)
+      const spaceBetween = 175; 
+      const totalPointsOffset = boxSize + timelineWidth + margin.right + spaceBetween;
+
+      // Draw Total Points box for selected season
+      const selectedSeasonPoints = totalPointsData.find(d => d.seasons === selectedSeason);
+      svg.append('rect')
+          .attr('width', boxSize)
+          .attr('height', boxSize * 0.8)
+          .attr('x', totalPointsOffset)
+          .attr('y', 0)
+          .attr('rx', 4)
+          .attr('ry', 4)
+          .attr('fill', 'white')
+          .attr('stroke', 'black')
+
+      // Add "Total Points" text
+      svg.append('text')
+          .attr('x', totalPointsOffset + boxSize / 2)
+          .attr('y', 20)
+          .attr('text-anchor', 'middle')
+          .text('Total Points');
+
+      // Add the value for the selected season
+      svg.append('text')
+          .attr('x', totalPointsOffset + boxSize / 2)
+          .attr('y', boxSize / 2 + 5)
+          .attr('text-anchor', 'middle')
+          .text(selectedSeasonPoints ? selectedSeasonPoints.totalPoints : 'N/A');
+
+      // Set up the scales for the Total Points timeline
+      const totalPointsXScale = d3.scaleBand()
+                                  .domain(totalPointsData.map(d => d.seasons))
+                                  .range([0 + innerPadding, timelineWidth - innerPadding])
+                                  .padding(0.1);
+
+      const totalPointsYScale = d3.scaleLinear()
+                                  .domain([0, d3.max(totalPointsData, d => d.totalPoints)])
+                                  .range([timelineHeight - innerPadding, 0 + innerPadding]);
+
+      // Draw the time series of total points
+      svg.append('rect')
+          .attr('width', timelineWidth)
+          .attr('height', boxSize * 0.8)
+          .attr('x', totalPointsOffset + boxSize + margin.right)
+          .attr('y', 0)
+          .attr('rx', 4)
+          .attr('ry', 4)
+          .attr('fill', 'white')
+          .attr('stroke', 'black');
+
+      // Draw the line for the Total Points time series
+      svg.append('g')
+          .attr('transform', `translate(${totalPointsOffset + boxSize + margin.right}, 0)`)
+          .append('path')
+          .datum(totalPointsData)
+          .attr('fill', 'none')
+          .attr('stroke', 'steelblue')
+          .attr('stroke-width', 2)
+          .attr('d', d3.line()
+              .x(d => totalPointsXScale(d.seasons) + totalPointsXScale.bandwidth() / 2) // Center the line in the band
+              .y(d => totalPointsYScale(d.totalPoints))
+          );
+
+      // Add a semi-transparent red band for the selected season
+      if (selectedSeasonPoints) {
+        const selectedSeasonPointsX = totalPointsXScale(selectedSeason) + totalPointsOffset + boxSize + margin.right;
+        svg.append('rect')
+            .attr('x', selectedSeasonPointsX)
+            .attr('width', 2) // Narrow width for the band
+            .attr('y', 0)
+            .attr('height', timelineHeight)
+            .attr('fill', 'rgba(255, 0, 0, 0.5)'); // Semi-transparent red
+      }
+
     }
-  }, [seasonsData, selectedSeason]);
+  }, [selectedSeason, gpgData, totalPointsData]);
 
   return (
       <div className="dashboard-stats">
