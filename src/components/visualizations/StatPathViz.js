@@ -108,7 +108,7 @@ const StatPathViz = ({ finalData, winningTeam, statCols, season }) => {
       }
     }, [finalData, winningTeam, statCols, season]); // Re-run this effect when finalData, winningTeam, statCols, or season changes
 
-    return <svg ref={svgRef} width="100%" height="70vh"></svg>;
+    return <svg ref={svgRef} width="95%" height="60vh"></svg>;
 };
 
 export default StatPathViz;

@@ -2,7 +2,7 @@
 
 // React imports
 import React, { useState } from 'react';
-import { useNavigate, Routes, Route } from 'react-router-dom';
+import { useNavigate, useLocation, Routes, Route } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRightToBracket } from '@fortawesome/free-solid-svg-icons';
 
@@ -11,10 +11,13 @@ import './Dashboard.css';
 import SeasonDashboard from './SeasonDashboard';
 import TeamDashboard from './TeamDashboard';
 import PlayerDashboard from './PlayerDashboard';
+import DataTotalsPanel from './visualizations/DataTotalsPanel';
+
 
 // Create the dashboard
 const Dashboard = ({ sportName }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [dashboardTitle, setDashboardTitle] = useState(`${sportName} Dashboard Landing Page`);
   const [inputValue, setInputValue] = useState('');
 
@@ -52,6 +55,8 @@ const Dashboard = ({ sportName }) => {
     setInputValue('');  // Clear the input field
   }
 
+  const isMainNHLPage = sportName === 'NHL' && location.pathname === `/${sportName.toLowerCase()}/`;
+
   return (
     <div className="container">
 
@@ -74,7 +79,7 @@ const Dashboard = ({ sportName }) => {
         </div>
       </div>
 
-      {/* Dashboard content (infinite scroll) */}
+      {/* Dashboard content */}
       <div className="content">
         <h2 className="title">{dashboardTitle}</h2>
 
@@ -83,6 +88,8 @@ const Dashboard = ({ sportName }) => {
           <Route path={`team/*`} element={<TeamDashboard sportName={sportName} />} />
           <Route path={`player/*`} element={<PlayerDashboard sportName={sportName} />} />
         </Routes>
+
+        {isMainNHLPage && <DataTotalsPanel sportName={sportName} navigate={navigate} />}
 
         {/* Input form for NLP search */}
         <form className="input-form" onSubmit={handleInputSubmit}>
