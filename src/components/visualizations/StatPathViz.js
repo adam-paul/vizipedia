@@ -1,9 +1,29 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
 import './StatPathViz.css';
 
-const StatPathViz = ({ finalData, winningTeam, statCols, season }) => {
+const StatPathViz = ({ season }) => {
     const svgRef = useRef();  // Create a reference for the SVG element
+    const [finalData, setFinalData] = useState([]);
+    const [winningTeam, setWinningTeam] = useState('');
+    const [statCols, setStatCols] = useState([]);
+
+    // Fetch the stat path data for the selected season
+    useEffect(() => {
+      // Ensure that a season is selected before fetching
+      if (season) {
+          const formattedSeason = season.replace('-', ''); // Format the season for API endpoint
+
+          fetch(`/api/nhl/stat_path_preprocess/${formattedSeason}/`)
+          .then(response => response.json())
+          .then(data => {
+              setFinalData(data.final_data);
+              setWinningTeam(data.winning_team);
+              setStatCols(data.stat_cols);
+          })
+          .catch(error => console.log('There was an error fetching stat path data:', error));
+      }
+    }, [season]);
 
     useEffect(() => {
       const svg = d3.select(svgRef.current);
@@ -23,7 +43,6 @@ const StatPathViz = ({ finalData, winningTeam, statCols, season }) => {
 
       if (finalData.length > 0 && statCols.length > 0) {
         // Create the axis scales
-        
         const xScale = d3.scaleBand()
                          .domain(statCols)  // statCols contains the column names
                          .range([0, plotWidth])
@@ -39,27 +58,27 @@ const StatPathViz = ({ finalData, winningTeam, statCols, season }) => {
 
         // Create the data points and plot them
         finalData.forEach(teamData => {
-         statCols.forEach((stat, i) => {
-             svg.append("circle")
-                .attr("cx", xScale(stat) + xScale.bandwidth() / 2 + margins.left)
-                .attr("cy", yScale(teamData[stat]) + margins.top)
-                .attr("r", 3)
-                .attr("fill", winningTeam === teamData.team_id ? "blue" : colorScale(teamData.team_id))
-                .on("mouseover", function(d) {
+          statCols.forEach((stat, i) => {
+            svg.append("circle")
+               .attr("cx", xScale(stat) + xScale.bandwidth() / 2 + margins.left)
+               .attr("cy", yScale(teamData[stat]) + margins.top)
+               .attr("r", 3)
+               .attr("fill", winningTeam === teamData.team_id ? "blue" : colorScale(teamData.team_id))
+               .on("mouseover", function(d) {
+                 tooltip.transition()
+                        .duration(20)
+                        .style("opacity", 0.9);
+                 tooltip.html(`Team ID: ${teamData.team_id}<br/>Value: ${teamData[stat]}`)
+                        .style("left", (d.pageX + 5) + "px")
+                        .style("top", (d.pageY - 28) + "px");
+                })
+                .on("mouseout", function(d) {
                   tooltip.transition()
-                         .duration(20)
-                         .style("opacity", 0.9);
-                  tooltip.html(`Team ID: ${teamData.team_id}<br/>Value: ${teamData[stat]}`)
-                         .style("left", (d.pageX + 5) + "px")
-                         .style("top", (d.pageY - 28) + "px");
-                  })
-                  .on("mouseout", function(d) {
-                        tooltip.transition()
-                               .duration(50)
-                               .style("opacity", 0);
-                  });
-         });
-       });
+                         .duration(50)
+                         .style("opacity", 0);
+                });
+          });
+        });
 
         // Define the winning-team line generator
         const line = d3.line()
@@ -70,12 +89,12 @@ const StatPathViz = ({ finalData, winningTeam, statCols, season }) => {
         const winningTeamData = finalData.find(team => team.team_id === winningTeam);
 
         if (winningTeamData) {
-            svg.append("path")
-               .datum(statCols.map(stat => winningTeamData[stat]))
-               .attr("fill", "none")
-               .attr("stroke", "blue")
-               .attr("stroke-dasharray", "4,4")
-               .attr("d", line);
+          svg.append("path")
+              .datum(statCols.map(stat => winningTeamData[stat]))
+              .attr("fill", "none")
+              .attr("stroke", "blue")
+              .attr("stroke-dasharray", "4,4")
+              .attr("d", line);
         }
 
         // Create the X axis
@@ -108,7 +127,11 @@ const StatPathViz = ({ finalData, winningTeam, statCols, season }) => {
       }
     }, [finalData, winningTeam, statCols, season]); // Re-run this effect when finalData, winningTeam, statCols, or season changes
 
-    return <svg ref={svgRef} width="95%" height="60vh"></svg>;
+    return (
+      <div className="stat-window">
+        <svg ref={svgRef} width="100%" height="60vh"></svg>
+      </div>
+    );
 };
 
 export default StatPathViz;

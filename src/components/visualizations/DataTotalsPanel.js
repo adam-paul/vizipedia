@@ -4,27 +4,27 @@ import React, { useState, useEffect } from 'react';
 import './DataTotalsPanel.css';
 
 const useCountUpAnimation = (startValue, targetValue) => {
-  const [animatedValue, setAnimatedValue] = useState(startValue);
-  const duration = 1000; // Duration can be set as a constant inside the hook
-  const step = (targetValue - startValue) / (duration / 25); // Calculate step size
+    const [animatedValue, setAnimatedValue] = useState(startValue);
+    const duration = 1000; // Duration can be set as a constant inside the hook
+    const step = (targetValue - startValue) / (duration / 25); // Calculate step size
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-    setAnimatedValue(prevValue => {
-      const nextValue = prevValue + step;
-      if ((step > 0 && nextValue < targetValue) || (step < 0 && nextValue > targetValue)) {
-      return nextValue;
-      } else {
-      clearInterval(interval);
-      return targetValue;
-      }
-    });
-    }, 25);
+    useEffect(() => {
+      const interval = setInterval(() => {
+        setAnimatedValue(prevValue => {
+          const nextValue = prevValue + step;
+          if ((step > 0 && nextValue < targetValue) || (step < 0 && nextValue > targetValue)) {
+            return nextValue;
+          } else {
+            clearInterval(interval);
+            return targetValue;
+          }
+        });
+      }, 25);
 
-    return () => clearInterval(interval);
-  }, [targetValue, step]);
+      return () => clearInterval(interval);
+    }, [targetValue, step]);
 
-  return animatedValue;
+    return animatedValue;
 };
 
 const DataTotalsPanel = ({ sportName, navigate }) => {
@@ -34,14 +34,14 @@ const DataTotalsPanel = ({ sportName, navigate }) => {
 
     // Fetching data totals from the API
     useEffect(() => {
-        fetch(`/api/${sportName.toLowerCase()}/data_totals/`)
-            .then(response => response.json())
-            .then(data => {
-                setSeasonTotal(data.num_seasons);
-                setTeamTotal(data.num_teams);
-                setPlayerTotal(data.num_players);
-            })
-            .catch(error => console.log('There was an error fetching data totals:', error));
+      fetch(`/api/${sportName.toLowerCase()}/data_totals/`)
+        .then(response => response.json())
+        .then(data => {
+          setSeasonTotal(data.num_seasons);
+          setTeamTotal(data.num_teams);
+          setPlayerTotal(data.num_players);
+        })
+        .catch(error => console.log('There was an error fetching data totals:', error));
     }, [sportName]);
 
     const animatedSeasonTotal = useCountUpAnimation(1000, seasonTotal); 

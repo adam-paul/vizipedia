@@ -4,6 +4,11 @@ svg {
   overflow: visible;
 }
 
+.stat-window {
+  width: 95%;
+  margin-bottom: 80px;
+}
+
 .tooltip {
   position: absolute;
   background-color: white;

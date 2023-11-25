@@ -7,17 +7,12 @@ import SeasonTimeline from './visualizations/SeasonTimeline';
 import DashboardStats from './visualizations/DashboardStats';
 import StatPathViz from './visualizations/StatPathViz';
 
+// Memoized season select option
 const MemoizedOption = React.memo(({ value }) => <option value={value}>{value}</option>);
 
 const SeasonDashboard = ({ sportName }) => {
-    const [selectedSeason, setSelectedSeason] = useState(''); // Default value
-    const [seasons, setSeasons] = useState([]); // For holding all seasons
-    const [goalsPerGameData, setGoalsPerGameData] = useState([]); // Goals per game data
-    const [totalPointsData, setTotalPointsData] = useState([]); // Total season points data
-    const [finalData, setFinalData] = useState([]);
-    const [winningTeam, setWinningTeam] = useState('');
-    const [winningTeams, setWinningTeams] = useState({});
-    const [statCols, setStatCols] = useState([]);
+    const [selectedSeason, setSelectedSeason] = useState('');
+    const [seasons, setSeasons] = useState([]); // Holds all seasons
 
     // Function to handle season selection
     const handleSeasonChange = (event) => {
@@ -41,85 +36,32 @@ const SeasonDashboard = ({ sportName }) => {
       })
       .catch(error => console.log('There was an error fetching seasons:', error));
     }, [sportName]);
- 
-    // Remove the hyphen from the selectedSeason
-    const formattedSeason = selectedSeason.replace('-', '');
-
-    // Generate winners dict
-    useEffect(() => {
-      fetch(`/api/${sportName.toLowerCase()}/stanley_cup_winners/`)
-      .then(response => response.json())
-      .then(data => {
-        setWinningTeams(data);
-      })
-      .catch(error => console.log('There was an error fetching stanley cup winners:', error));
-    }, [sportName]);
-
-    // Fetch goals per game data for selected season
-    useEffect(() => {
-      fetch(`/api/${sportName.toLowerCase()}/seasons_gpg/`)
-        .then(response => response.json())
-        .then(data => {
-          const formattedData = Object.entries(data).map(([season, avgGoals]) => ({
-            seasons: season,
-            avgGoals
-          }));
-          setGoalsPerGameData(formattedData);
-        })
-        .catch(error => console.log('There was an error fetching goals per game data:', error));
-    }, [sportName]);
-
-    // Fetch total points data for selected season
-    useEffect(() => {
-      fetch(`/api/${sportName.toLowerCase()}/total_points/`)
-        .then(response => response.json())
-        .then(data => {
-          const formattedData = Object.entries(data).map(([season, totalPoints]) => ({
-            seasons: season,
-            totalPoints
-          }));
-          setTotalPointsData(formattedData);
-        })
-        .catch(error => console.log('There was an error fetching total points data:', error));
-    }, [sportName]);
-
-    // Fetch the stat path data for the selected season
-    useEffect(() => {
-      fetch(`/api/${sportName.toLowerCase()}/stat_path_preprocess/${formattedSeason}/`)
-      .then(response => response.json())
-      .then(data => {
-        setFinalData(data.final_data);
-        setWinningTeam(data.winning_team);
-        setStatCols(data.stat_cols);
-      })
-      .catch(error => console.log('There was an error fetching stat path data:', error));
-    }, [sportName, selectedSeason, formattedSeason]);
 
     return (
       <div className="season-dashboard">
-        {/* Include season-specific visualizations */}
-        {/* Dropdown to select the season */}
+
+        {/* Season select dropdown */}
         <select className="season-select" value={selectedSeason} onChange={handleSeasonChange}>
           {seasons.map((season, index) => <MemoizedOption key={index} value={season} />)}
         </select>
+
         {/* d3 visualizations */}
         <SeasonTimeline 
           season={selectedSeason} 
           seasons={seasons} 
-          winningTeams={winningTeams} 
           onSeasonClick={handleSeasonChangeFromTimeline} 
         />
         <DashboardStats 
           selectedSeason={selectedSeason} 
-          gpgData={goalsPerGameData} 
-          totalPointsData={totalPointsData} 
         />
         <StatPathViz 
-          finalData={finalData} 
-          winningTeam={winningTeam} 
-          statCols={statCols} 
           season={selectedSeason} 
         />
+
+        {/* Page footer */}
+        <div class="footer">
+          <img src="https://i.imgur.com/Aw9faWb.png" alt="NHL logo" width="7%" />
+        </div>
       </div>
     );
   };
