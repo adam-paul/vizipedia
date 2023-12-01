@@ -6,6 +6,7 @@ const StatPathViz = ({ season }) => {
     const svgRef = useRef();  // Create a reference for the SVG element
     const [finalData, setFinalData] = useState([]);
     const [winningTeam, setWinningTeam] = useState('');
+    const [winningTeamLogo, setWinningTeamLogo] = useState('');
     const [statCols, setStatCols] = useState([]);
 
     // Fetch the stat path data for the selected season
@@ -19,6 +20,7 @@ const StatPathViz = ({ season }) => {
           .then(data => {
               setFinalData(data.final_data);
               setWinningTeam(data.winning_team);
+              setWinningTeamLogo(data.winning_team_logo);
               setStatCols(data.stat_cols);
           })
           .catch(error => console.log('There was an error fetching stat path data:', error));
@@ -87,12 +89,39 @@ const StatPathViz = ({ season }) => {
 
         // Get the data for the winning team
         const winningTeamData = finalData.find(team => team.team_id === winningTeam);
+        console.log("winning team imgur tag: ", winningTeamLogo);
+
+        if (winningTeamData) {
+          statCols.forEach((stat, i) => {
+            svg.append("image")
+                .attr("class", "team-logo")
+                .attr("href", `https://i.imgur.com/${winningTeamLogo}.png`) // Adjust the URL using the logo_url_string field                
+                .attr("x", xScale(stat) + xScale.bandwidth() / 2 + margins.left - 10) // Adjust for logo size
+                .attr("y", yScale(winningTeamData[stat]) + margins.top - 10) // Adjust for logo size
+                .attr("width", 20) // Logo size
+                .attr("height", 20) // Logo size
+                .on("mouseover", function(d) {
+                    tooltip.transition()
+                            .duration(20)
+                            .style("opacity", 0.9);
+                    // Update to show actual database values
+                    tooltip.html(`Team ID: ${winningTeamData.team_id}<br/>${stat}: ${winningTeamData[stat + "_actual"]}`) // Assuming actual values are stored in a similarly named key
+                            .style("left", (d.pageX + 5) + "px")
+                            .style("top", (d.pageY - 28) + "px");
+                })
+                .on("mouseout", function(d) {
+                    tooltip.transition()
+                            .duration(50)
+                            .style("opacity", 0);
+                });
+          });
+        }
 
         if (winningTeamData) {
           svg.append("path")
               .datum(statCols.map(stat => winningTeamData[stat]))
               .attr("fill", "none")
-              .attr("stroke", "blue")
+              .attr("stroke", "steelblue")
               .attr("stroke-dasharray", "4,4")
               .attr("d", line);
         }
@@ -125,7 +154,7 @@ const StatPathViz = ({ season }) => {
            .attr("font-weight", "bold")
            .text(`Stanley Cup winner (${winningTeam}) statistical path for ${season}`);
       }
-    }, [finalData, winningTeam, statCols, season]); // Re-run this effect when finalData, winningTeam, statCols, or season changes
+    }, [finalData, winningTeam, statCols, season]);
 
     return (
       <div className="stat-window">

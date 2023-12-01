@@ -28,9 +28,9 @@ const useCountUpAnimation = (startValue, targetValue) => {
 };
 
 const DataTotalsPanel = ({ sportName, navigate }) => {
-    const [seasonTotal, setSeasonTotal] = useState(0);
-    const [teamTotal, setTeamTotal] = useState(0); 
-    const [playerTotal, setPlayerTotal] = useState(0);
+    const [seasonTotal, setSeasonTotal] = useState(100);
+    const [teamTotal, setTeamTotal] = useState(50); 
+    const [playerTotal, setPlayerTotal] = useState(5000);
 
     // Fetching data totals from the API
     useEffect(() => {
@@ -44,9 +44,9 @@ const DataTotalsPanel = ({ sportName, navigate }) => {
         .catch(error => console.log('There was an error fetching data totals:', error));
     }, [sportName]);
 
-    const animatedSeasonTotal = useCountUpAnimation(1000, seasonTotal); 
-    const animatedTeamTotal = useCountUpAnimation(1000, teamTotal); 
-    const animatedPlayerTotal = useCountUpAnimation(1000, playerTotal);
+    const animatedSeasonTotal = useCountUpAnimation(0, seasonTotal); 
+    const animatedTeamTotal = useCountUpAnimation(0, teamTotal); 
+    const animatedPlayerTotal = useCountUpAnimation(0, playerTotal);
 
     return (
       <div className="nhl-dashboard">
