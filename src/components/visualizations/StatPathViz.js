@@ -66,19 +66,6 @@ const StatPathViz = ({ season }) => {
                .attr("cy", yScale(teamData[stat]) + margins.top)
                .attr("r", 3)
                .attr("fill", winningTeam === teamData.team_id ? "blue" : colorScale(teamData.team_id))
-               .on("mouseover", function(d) {
-                 tooltip.transition()
-                        .duration(20)
-                        .style("opacity", 0.9);
-                 tooltip.html(`Team ID: ${teamData.team_id}<br/>Value: ${teamData[stat]}`)
-                        .style("left", (d.pageX + 5) + "px")
-                        .style("top", (d.pageY - 28) + "px");
-                })
-                .on("mouseout", function(d) {
-                  tooltip.transition()
-                         .duration(50)
-                         .style("opacity", 0);
-                });
           });
         });
 
@@ -93,21 +80,28 @@ const StatPathViz = ({ season }) => {
 
         if (winningTeamData) {
           statCols.forEach((stat, i) => {
+            const logoX = xScale(stat) + xScale.bandwidth() / 2 + margins.left - 10;
+            const logoY = yScale(winningTeamData[stat]) + margins.top - 10;
+        
             svg.append("image")
                 .attr("class", "team-logo")
-                .attr("href", `https://i.imgur.com/${winningTeamLogo}.png`) // Adjust the URL using the logo_url_string field                
-                .attr("x", xScale(stat) + xScale.bandwidth() / 2 + margins.left - 10) // Adjust for logo size
-                .attr("y", yScale(winningTeamData[stat]) + margins.top - 10) // Adjust for logo size
-                .attr("width", 20) // Logo size
-                .attr("height", 20) // Logo size
+                .attr("href", `https://i.imgur.com/${winningTeamLogo}.png`)
+                .attr("x", logoX)
+                .attr("y", logoY)
+                .attr("width", 20)
+                .attr("height", 20)
                 .on("mouseover", function(d) {
+                    const svgRect = svgRef.current.getBoundingClientRect(); // SVG coords
+                    // Slightly offset tooltip from logo
+                    const xPosition = svgRect.left + logoX + 25; 
+                    const yPosition = svgRect.top + logoY - 20; 
+        
                     tooltip.transition()
                             .duration(20)
                             .style("opacity", 0.9);
-                    // Update to show actual database values
-                    tooltip.html(`Team ID: ${winningTeamData.team_id}<br/>${stat}: ${winningTeamData[stat + "_actual"]}`) // Assuming actual values are stored in a similarly named key
-                            .style("left", (d.pageX + 5) + "px")
-                            .style("top", (d.pageY - 28) + "px");
+                    tooltip.html(`Team ID: ${winningTeamData.team_id}<br/>${stat}: ${winningTeamData[stat + "_actual"]}`)
+                            .style("left", xPosition + "px")
+                            .style("top", yPosition + "px");
                 })
                 .on("mouseout", function(d) {
                     tooltip.transition()
@@ -154,7 +148,7 @@ const StatPathViz = ({ season }) => {
            .attr("font-weight", "bold")
            .text(`Stanley Cup winner (${winningTeam}) statistical path for ${season}`);
       }
-    }, [finalData, winningTeam, statCols, season]);
+    }, [finalData, winningTeam, winningTeamLogo, statCols, season]);
 
     return (
       <div className="stat-window">

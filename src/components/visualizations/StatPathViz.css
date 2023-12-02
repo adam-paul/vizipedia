@@ -9,6 +9,15 @@ svg {
   margin-bottom: 80px;
 }
 
+.team-logo {
+  transition: filter 0.2s ease; /* Smooth transition for the filter effect */
+}
+
+.team-logo:hover {
+  filter: brightness(1.5); /* Increase brightness */
+  cursor: pointer;
+}
+
 .tooltip {
   position: absolute;
   background-color: white;
