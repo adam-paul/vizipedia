@@ -10,7 +10,7 @@ svg {
 }
 
 .team-logo {
-  transition: filter 0.2s ease; /* Smooth transition for the filter effect */
+  transition: filter 0.1s ease; /* Smooth transition for the filter effect */
 }
 
 .team-logo:hover {

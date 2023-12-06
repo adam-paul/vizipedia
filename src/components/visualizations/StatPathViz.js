@@ -5,6 +5,7 @@ import './StatPathViz.css';
 const StatPathViz = ({ season }) => {
     const svgRef = useRef();  // Create a reference for the SVG element
     const [finalData, setFinalData] = useState([]);
+    const [originalData, setOriginalData] = useState([]);
     const [winningTeam, setWinningTeam] = useState('');
     const [winningTeamLogo, setWinningTeamLogo] = useState('');
     const [statCols, setStatCols] = useState([]);
@@ -19,6 +20,7 @@ const StatPathViz = ({ season }) => {
           .then(response => response.json())
           .then(data => {
               setFinalData(data.final_data);
+              setOriginalData(data.original_data);
               setWinningTeam(data.winning_team);
               setWinningTeamLogo(data.winning_team_logo);
               setStatCols(data.stat_cols);
@@ -27,6 +29,7 @@ const StatPathViz = ({ season }) => {
       }
     }, [season]);
 
+    // Draw and populate the stat path visualization
     useEffect(() => {
       const svg = d3.select(svgRef.current);
       const svgWidth = svgRef.current.getBoundingClientRect().width;
@@ -91,17 +94,28 @@ const StatPathViz = ({ season }) => {
                 .attr("width", 20)
                 .attr("height", 20)
                 .on("mouseover", function(d) {
-                    const svgRect = svgRef.current.getBoundingClientRect(); // SVG coords
-                    // Slightly offset tooltip from logo
-                    const xPosition = svgRect.left + logoX + 25; 
-                    const yPosition = svgRect.top + logoY - 20; 
-        
-                    tooltip.transition()
-                            .duration(20)
-                            .style("opacity", 0.9);
-                    tooltip.html(`Team ID: ${winningTeamData.team_id}<br/>${stat}: ${winningTeamData[stat + "_actual"]}`)
-                            .style("left", xPosition + "px")
-                            .style("top", yPosition + "px");
+                  const svgRect = svgRef.current.getBoundingClientRect(); // SVG coords
+                  const xPosition = svgRect.left + logoX + 25; 
+                  const yPosition = svgRect.top + logoY - 20;
+              
+                  // Sort finalData based on the normalized value of the hovered stat
+                  const sortedTeams = [...finalData].sort((a, b) => b[stat] - a[stat]);
+              
+                  let tooltipHtml = `<div style="font-size:12px;"><strong>${stat}</strong><ul style="list-style-type: none; padding: 0;">`;
+                  sortedTeams.forEach(team => {
+                    const teamStatValue = originalData[team.team_id][stat];
+                    const isWinningTeam = team.team_id === winningTeam;
+                    const listItemStyle = isWinningTeam ? 'font-weight:bold;' : '';
+                    tooltipHtml += `<li style="${listItemStyle}">${team.team_id}: ${teamStatValue}</li>`;
+                  });
+                  tooltipHtml += `</ul></div>`;
+              
+                  tooltip.transition()
+                          .duration(20)
+                          .style("opacity", 0.9);
+                  tooltip.html(tooltipHtml)
+                          .style("left", xPosition + "px")
+                          .style("top", yPosition + "px");
                 })
                 .on("mouseout", function(d) {
                     tooltip.transition()
@@ -148,7 +162,7 @@ const StatPathViz = ({ season }) => {
            .attr("font-weight", "bold")
            .text(`Stanley Cup winner (${winningTeam}) statistical path for ${season}`);
       }
-    }, [finalData, winningTeam, winningTeamLogo, statCols, season]);
+    }, [finalData, originalData, winningTeam, winningTeamLogo, statCols, season]);
 
     return (
       <div className="stat-window">

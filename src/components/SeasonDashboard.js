@@ -10,7 +10,7 @@ import StatPathViz from './visualizations/StatPathViz';
 // Memoized season select option
 const MemoizedOption = React.memo(({ value }) => <option value={value}>{value}</option>);
 
-const SeasonDashboard = ({ sportName }) => {
+const SeasonDashboard = ({ sportName, dashboardTitle }) => {
     const [selectedSeason, setSelectedSeason] = useState('');
     const [seasons, setSeasons] = useState([]); // Holds all seasons
 
@@ -35,10 +35,12 @@ const SeasonDashboard = ({ sportName }) => {
         }
       })
       .catch(error => console.log('There was an error fetching seasons:', error));
-    }, [sportName]);
+    }, [sportName, dashboardTitle]);
 
     return (
       <div className="season-dashboard">
+
+        <h2 className="title">{dashboardTitle}</h2>
 
         {/* Season select dropdown */}
         <select className="season-select" value={selectedSeason} onChange={handleSeasonChange}>

@@ -1,7 +1,7 @@
 // Dashboard.js
 
 // React imports
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation, Routes, Route } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRightToBracket } from '@fortawesome/free-solid-svg-icons';
@@ -18,7 +18,7 @@ import DataTotalsPanel from './visualizations/DataTotalsPanel';
 const Dashboard = ({ sportName }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [dashboardTitle, setDashboardTitle] = useState(`${sportName} Dashboard Landing Page`);
+  const [dashboardTitle, setDashboardTitle] = useState(`${sportName} Dashboard`);
   const [inputValue, setInputValue] = useState('');
 
   const handleVizipediaClick = () => {
@@ -27,22 +27,18 @@ const Dashboard = ({ sportName }) => {
 
   const handleHomeDataClick = () => {
     navigate(`/${sportName.toLowerCase()}/`);
-    setDashboardTitle(`${sportName} Dashboard Landing Page`);
   }
 
   const handleSeasonalDataClick = () => {
     navigate(`/${sportName.toLowerCase()}/season/`);
-    setDashboardTitle('Seasonal Data Dashboard');
   }
 
   const handleTeamDataClick = () => {
     navigate(`/${sportName.toLowerCase()}/team/`);
-    setDashboardTitle('Team Data Dashboard');
   }
 
   const handlePlayerDataClick = () => {
     navigate(`/${sportName.toLowerCase()}/player/`);
-    setDashboardTitle('Player Data Dashboard');
   }
 
   const handleInputChange = (event) => {
@@ -56,6 +52,20 @@ const Dashboard = ({ sportName }) => {
   }
 
   const isMainNHLPage = sportName === 'NHL' && location.pathname === `/${sportName.toLowerCase()}/`;
+
+  useEffect(() => {
+    // Dynamically set the title based on the current route
+    const path = location.pathname;
+    if (path.includes('/season/')) {
+      setDashboardTitle('Season');
+    } else if (path.includes('/team/')) {
+      setDashboardTitle('Team');
+    } else if (path.includes('/player/')) {
+      setDashboardTitle('Player');
+    } else {
+      setDashboardTitle('');
+    }
+  }, [location, sportName]);
 
   return (
     <div className="container">
@@ -81,12 +91,18 @@ const Dashboard = ({ sportName }) => {
 
       {/* Dashboard content */}
       <div className="content">
-        <h2 className="title">{dashboardTitle}</h2>
 
         <Routes>
-          <Route path={`season/*`} element={<SeasonDashboard sportName={sportName} />} />
-          <Route path={`team/*`} element={<TeamDashboard sportName={sportName} />} />
-          <Route path={`player/*`} element={<PlayerDashboard sportName={sportName} />} />
+          <Route path={`season/*`} 
+                  element={<SeasonDashboard 
+                  sportName={sportName} 
+                  dashboardTitle={dashboardTitle} />} />
+          <Route path={`team/*`} 
+                  element={<TeamDashboard 
+                  sportName={sportName} />} />
+          <Route path={`player/*`} 
+                  element={<PlayerDashboard 
+                  sportName={sportName} />} />
         </Routes>
 
         {isMainNHLPage && <DataTotalsPanel sportName={sportName} navigate={navigate} />}

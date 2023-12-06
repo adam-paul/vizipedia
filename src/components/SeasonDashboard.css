@@ -23,5 +23,12 @@
 
 .season-select {
   margin: 10px;
+  margin-top: 4px;
   padding: 2px;
+}
+
+.title {
+  font-family: 'Organetto-bold', sans-serif;
+  margin-top: 0.5em;
+  margin-bottom: 0.2em;
 }
