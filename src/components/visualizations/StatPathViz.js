@@ -155,11 +155,12 @@ const StatPathViz = ({ season }) => {
            .call(yAxis);
 
         svg.append("text")
-           .attr("x", svgWidth / 2)
+           .attr("x", margins.left / 2)
            .attr("y", margins.top / 2)
-           .attr("text-anchor", "middle")
+           .attr("text-anchor", "left")
            .attr("font-size", "16px")
            .attr("font-weight", "bold")
+           .attr("font-family", "Organetto-cndlight")
            .text(`Stanley Cup winner (${winningTeam}) statistical path for ${season}`);
       }
     }, [finalData, originalData, winningTeam, winningTeamLogo, statCols, season]);

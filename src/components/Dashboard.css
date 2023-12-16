@@ -29,7 +29,7 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 20px; 
+  padding: 15px; 
   overflow-y: auto;
 }
 
@@ -49,7 +49,7 @@
 
 .input-form {
   display: flex;
-  width: 75%; 
+  width: 95%; 
   margin-top: 5px;
 }
 
