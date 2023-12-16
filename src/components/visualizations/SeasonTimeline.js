@@ -112,7 +112,7 @@ const SeasonTimeline = ({ season, seasons, onSeasonClick }) => {
           .attr("class", "logo-panel")
           .attr("href", d => `https://i.imgur.com/${winningTeams[d][1]}.png`)
           .attr("x", d => xScale(d) + (xScale.bandwidth() / 2)) // Center the logo above the tick; adjust as needed
-          .attr("y", plotHeight - 45) 
+          .attr("y", (plotHeight / 3) - 2) 
           .style("cursor", "pointer")
           .on("click", function(d) {
             const clickedSeason = d3.select(this).datum();

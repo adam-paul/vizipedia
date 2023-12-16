@@ -2,10 +2,11 @@
 
 .logo-panel {
   height: 40%;
+  transition: filter 0.1s ease; /* Smooth transition for the filter effect */
 }
 
 .logo-panel:hover {
-  filter: brightness(1.35); /* Increase brightness */
+  filter: brightness(1.35); 
   cursor: pointer;
 }
 
@@ -16,4 +17,10 @@
   overflow-x: auto;
   overflow-y: hidden;
   flex-shrink: 0;
+}
+
+@media screen and (max-width: 1024px) { 
+  .svg-container {
+    height: 15vh; /* Increased height for smaller screens */
+  }
 }

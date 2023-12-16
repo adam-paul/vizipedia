@@ -49,7 +49,6 @@ const DashboardStats = ({ selectedSeason }) => {
         const svg = d3.select(gpgSvgRef.current)
                       .attr('class', 'gpg-svg')
         const svgWidth = gpgSvgRef.current.getBoundingClientRect().width;
-        const svgHeight = gpgSvgRef.current.getBoundingClientRect().height;
         const margins = { top: 20, right: 10, bottom: 20, left: 20 };
         
         // Draw Goals Per Game box for selected season
@@ -147,7 +146,6 @@ const DashboardStats = ({ selectedSeason }) => {
         const svg = d3.select(tpSvgRef.current)
                       .attr('class', 'tp-svg')
         const svgWidth = tpSvgRef.current.getBoundingClientRect().width;
-        const svgHeight = tpSvgRef.current.getBoundingClientRect().height;
         const margins = { top: 20, right: 10, bottom: 20, left: 20 };
         const boxSize = 120; // Size of the square box for Total Points
         const timelineHeight = boxSize * 0.8; // New height for the timeline
