@@ -109,12 +109,10 @@ const SeasonTimeline = ({ season, seasons, onSeasonClick }) => {
       svg.selectAll(".team-logo").data(seasons)
           .enter()
           .append("image")
-          .attr("class", "team-logo")
+          .attr("class", "logo-panel")
           .attr("href", d => `https://i.imgur.com/${winningTeams[d][1]}.png`)
           .attr("x", d => xScale(d) + (xScale.bandwidth() / 2)) // Center the logo above the tick; adjust as needed
           .attr("y", plotHeight - 45) 
-          .attr("width", 40) 
-          .attr("height", 40)
           .style("cursor", "pointer")
           .on("click", function(d) {
             const clickedSeason = d3.select(this).datum();
