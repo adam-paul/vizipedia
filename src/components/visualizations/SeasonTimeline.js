@@ -66,10 +66,9 @@ const SeasonTimeline = ({ season, seasons, onSeasonClick }) => {
       const margins = { top: 20, right: 20, bottom: 20, left: 20 };
       const viewportWidth = svgRef.current.parentElement.clientWidth;
       const svgHeight = svgRef.current.parentElement.getBoundingClientRect().height;
-      const plotHeight = svgHeight - margins.top - margins.bottom;
-      const xAxisYPosition = plotHeight + margins.top; // Y-coordinate of the x-axis
-      const logoOffsetY = 4; // Distance above the x-ticks in pixels
-      const logoSize = plotHeight * 0.65;
+      const plotHeight = svgHeight - margins.top - margins.bottom; 
+      const logoOffsetY = 4; // Offset the logo from the season tick
+      const logoSize = plotHeight * 0.7; 
 
       // Update existing elements
       const ticks = svg.selectAll(".tick").data(seasons);
@@ -93,6 +92,18 @@ const SeasonTimeline = ({ season, seasons, onSeasonClick }) => {
           .attr("dy", ".35em")
           .attr("text-anchor", "middle");
 
+      // Select the .tick groups and append images
+      svg.selectAll(".tick").each(function(season, i) {
+        d3.select(this).append("image")
+          .attr("class", "logo-panel")
+          .attr("href", `https://i.imgur.com/${winningTeams[season][1]}.png`)
+          .attr("x", -logoSize / 2)
+          .attr("y", -logoSize - logoOffsetY)
+          .attr("width", logoSize)
+          .attr("height", logoSize)
+          .on("click", () => handleSeasonClick(season));
+      });
+
       // Highlight the currently selected season:
       svg.selectAll(".tick")
           .filter(d => d === season)
@@ -106,22 +117,6 @@ const SeasonTimeline = ({ season, seasons, onSeasonClick }) => {
           .on("click", function(d) {
             const selectedSeason = d3.select(this).text();
             handleSeasonClick(selectedSeason);
-          });
-
-      // Add images for winning teams above the ticks
-      svg.selectAll(".team-logo").data(seasons)
-          .enter()
-          .append("image")
-          .attr("class", "logo-panel")
-          .attr("href", d => `https://i.imgur.com/${winningTeams[d][1]}.png`)
-          .attr("x", d => xScale(d) + (xScale.bandwidth() / 2)) // Center the logo above the tick
-          .attr("y", xAxisYPosition - (1.5 * logoSize) - logoOffsetY) // Position above the x-ticks
-          .attr("width", logoSize)
-          .attr("height", logoSize)
-          .style("cursor", "pointer")
-          .on("click", function(d) {
-            const clickedSeason = d3.select(this).datum();
-            handleSeasonClick(clickedSeason);
           });
 
       // Calculate the x-coordinate of the selected season
