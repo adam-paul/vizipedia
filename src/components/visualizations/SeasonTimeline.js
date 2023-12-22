@@ -67,6 +67,8 @@ const SeasonTimeline = ({ season, seasons, onSeasonClick }) => {
       const viewportWidth = svgRef.current.parentElement.clientWidth;
       const svgHeight = svgRef.current.parentElement.getBoundingClientRect().height;
       const plotHeight = svgHeight - margins.top - margins.bottom;
+      const xAxisYPosition = plotHeight + margins.top; // Y-coordinate of the x-axis
+      const logoOffsetY = 4; // Distance above the x-ticks in pixels
       const logoSize = plotHeight * 0.65;
 
       // Update existing elements
@@ -112,8 +114,8 @@ const SeasonTimeline = ({ season, seasons, onSeasonClick }) => {
           .append("image")
           .attr("class", "logo-panel")
           .attr("href", d => `https://i.imgur.com/${winningTeams[d][1]}.png`)
-          .attr("x", d => xScale(d) + (xScale.bandwidth() / 2)) // Center the logo above the tick; adjust as needed
-          .attr("y", (plotHeight / 3) - 2) 
+          .attr("x", d => xScale(d) + (xScale.bandwidth() / 2)) // Center the logo above the tick
+          .attr("y", xAxisYPosition - (1.5 * logoSize) - logoOffsetY) // Position above the x-ticks
           .attr("width", logoSize)
           .attr("height", logoSize)
           .style("cursor", "pointer")
