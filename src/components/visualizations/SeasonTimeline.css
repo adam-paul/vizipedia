@@ -1,7 +1,6 @@
 /* SeasonTimeline.css */ 
 
 .logo-panel {
-  height: 40%;
   transition: filter 0.1s ease; /* Smooth transition for the filter effect */
 }
 

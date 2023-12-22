@@ -66,7 +66,8 @@ const SeasonTimeline = ({ season, seasons, onSeasonClick }) => {
       const margins = { top: 20, right: 20, bottom: 20, left: 20 };
       const viewportWidth = svgRef.current.parentElement.clientWidth;
       const svgHeight = svgRef.current.parentElement.getBoundingClientRect().height;
-      const plotHeight = svgHeight - margins.top - margins.bottom;  
+      const plotHeight = svgHeight - margins.top - margins.bottom;
+      const logoSize = plotHeight * 0.65;
 
       // Update existing elements
       const ticks = svg.selectAll(".tick").data(seasons);
@@ -113,6 +114,8 @@ const SeasonTimeline = ({ season, seasons, onSeasonClick }) => {
           .attr("href", d => `https://i.imgur.com/${winningTeams[d][1]}.png`)
           .attr("x", d => xScale(d) + (xScale.bandwidth() / 2)) // Center the logo above the tick; adjust as needed
           .attr("y", (plotHeight / 3) - 2) 
+          .attr("width", logoSize)
+          .attr("height", logoSize)
           .style("cursor", "pointer")
           .on("click", function(d) {
             const clickedSeason = d3.select(this).datum();

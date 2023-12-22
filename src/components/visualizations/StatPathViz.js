@@ -64,11 +64,13 @@ const StatPathViz = ({ season }) => {
         // Create the data points and plot them
         finalData.forEach(teamData => {
           statCols.forEach((stat, i) => {
-            svg.append("circle")
-               .attr("cx", xScale(stat) + xScale.bandwidth() / 2 + margins.left)
-               .attr("cy", yScale(teamData[stat]) + margins.top)
-               .attr("r", 3)
-               .attr("fill", winningTeam === teamData.team_id ? "blue" : colorScale(teamData.team_id))
+            if (teamData.team_id !== winningTeam) {
+              svg.append("circle")
+                 .attr("cx", xScale(stat) + xScale.bandwidth() / 2 + margins.left)
+                 .attr("cy", yScale(teamData[stat]) + margins.top)
+                 .attr("r", 3)
+                 .attr("fill", colorScale(teamData.team_id))
+            }
           });
         });
 
