@@ -18,8 +18,8 @@
   flex-shrink: 0;
 }
 
-@media screen and (max-width: 1024px) { 
+@media screen and (max-width: 1920px) { 
   .svg-container {
-    height: 15vh; /* Increased height for smaller screens */
+    height: 13vh; /* Increased height for smaller screens */
   }
 }
