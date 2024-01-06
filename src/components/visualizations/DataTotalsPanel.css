@@ -1,5 +1,10 @@
 /* DataTotalsPanel.css */ 
 
+@font-face {
+  font-family: 'Organetto-cndlight-edit';
+  src: url('../../fonts/organetto-cndlight-edit.otf') format('opentype');
+}
+
 .nhl-dashboard {
     height: 800%;
     display: flex;
@@ -31,5 +36,5 @@
   }
 
   .panel-description {
-    font-family: 'Organetto-cndlight', sans-serif;
+    font-family: 'Organetto-cndlight-edit', sans-serif;
   }

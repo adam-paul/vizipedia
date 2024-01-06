@@ -1,5 +1,10 @@
 /* SeasonDashboard.css */ 
 
+@font-face {
+  font-family: 'Organetto-bold-edit';
+  src: url('../fonts/organetto-bold-edit.otf') format('opentype');
+}
+
 .footer {
   width: 95%;
   opacity: 0.5;
@@ -28,7 +33,7 @@
 }
 
 .title {
-  font-family: 'Organetto-bold', sans-serif;
+  font-family: 'Organetto-bold-edit', sans-serif;
   margin-top: 0.5em;
   margin-bottom: 0.2em;
 }

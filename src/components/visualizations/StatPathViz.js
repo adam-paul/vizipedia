@@ -157,13 +157,32 @@ const StatPathViz = ({ season }) => {
            .call(yAxis);
 
         svg.append("text")
+           .attr("class", "stat-title")
            .attr("x", margins.left / 2)
            .attr("y", margins.top / 2)
            .attr("text-anchor", "left")
-           .attr("font-size", "16px")
-           .attr("font-weight", "bold")
-           .attr("font-family", "Organetto-cndlight")
            .text(`Stanley Cup winner (${winningTeam}) statistical path for ${season}`);
+
+        // Function to draw underline
+        function drawUnderline() {
+          const titleText = svg.select('.stat-title');
+          const titleTextWidth = titleText.node().getBBox().width;
+
+          // Drawing the underline for the title text
+          const lineLength = titleTextWidth * 1.1; // Extend the line a bit longer than the text
+          const lineY = margins.top / 2 + 5; // Position the line slightly below the text
+
+          svg.append('line')
+            .attr('x1', (margins.left / 2) - 3)
+            .attr('y1', lineY)
+            .attr('x2', ((margins.left / 2) - 3) + lineLength)
+            .attr('y2', lineY)
+            .attr('stroke', 'black')
+            .attr('stroke-width', 1);
+        }
+
+        // Use a timeout to ensure the text is fully rendered before measuring
+        setTimeout(drawUnderline, 30); // Slightly longer timeout
       }
     }, [finalData, originalData, winningTeam, winningTeamLogo, statCols, season]);
 

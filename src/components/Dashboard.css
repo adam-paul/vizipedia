@@ -1,8 +1,18 @@
 /* Dashboard.css */ 
 
+@font-face {
+  font-family: 'Organetto-cndlight-edit';
+  src: url('../fonts/organetto-cndlight-edit.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Organetto-bold-edit';
+  src: url('../fonts/organetto-bold-edit.otf') format('opentype');
+}
+
 .button {
   position: relative;
-  font-family: 'Organetto-cndlight', sans-serif;
+  font-family: 'Organetto-cndlight-edit', sans-serif;
   background: transparent;
   border: none;
   color: white;
@@ -35,7 +45,7 @@
 
 .header {
   position: absolute;
-  font-family: 'Organetto-bold', sans-serif;
+  font-family: 'Organetto-bold-edit', sans-serif;
   top: 0;
   left: 0;
   width: 20%;

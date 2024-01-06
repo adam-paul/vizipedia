@@ -1,7 +1,16 @@
 /* StatPathViz.css */ 
 
+@font-face {
+  font-family: 'Organetto-cndlight-edit';
+  src: url('../../fonts/organetto-cndlight-edit.otf') format('opentype');
+}
+
 svg {
   overflow: visible;
+}
+
+.stat-title {
+  font-family: 'Organetto-cndlight-edit', sans-serif;
 }
 
 .stat-window {
