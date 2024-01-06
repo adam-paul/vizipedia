@@ -158,31 +158,34 @@ const StatPathViz = ({ season }) => {
 
         svg.append("text")
            .attr("class", "stat-title")
-           .attr("x", margins.left / 2)
+           .attr("x", 0)
            .attr("y", margins.top / 2)
            .attr("text-anchor", "left")
-           .text(`Stanley Cup winner (${winningTeam}) statistical path for ${season}`);
+           .text(`Cup winner statistical path`);
 
-        // Function to draw underline
-        function drawUnderline() {
-          const titleText = svg.select('.stat-title');
-          const titleTextWidth = titleText.node().getBBox().width;
+        const titleText = svg.select('.stat-title');
+        const titleTextWidth = titleText.node().getBBox().width;
+        const titleX = (margins.left / 2) - 3;
 
-          // Drawing the underline for the title text
-          const lineLength = titleTextWidth * 1.1; // Extend the line a bit longer than the text
-          const lineY = margins.top / 2 + 5; // Position the line slightly below the text
+        // Drawing the underline for the title text
+        const lineLength = titleTextWidth * 1.1; // Extend the line a bit longer than the text
+        const lineY = margins.top / 2 + 5; // Position the line slightly below the text
 
-          svg.append('line')
-            .attr('x1', (margins.left / 2) - 3)
-            .attr('y1', lineY)
-            .attr('x2', ((margins.left / 2) - 3) + lineLength)
-            .attr('y2', lineY)
-            .attr('stroke', 'black')
-            .attr('stroke-width', 1);
-        }
+        svg.append('line')
+          .attr('x1', -3)
+          .attr('y1', lineY)
+          .attr('x2', titleX + lineLength)
+          .attr('y2', lineY)
+          .attr('stroke', 'black')
+          .attr('stroke-width', 1);
 
-        // Use a timeout to ensure the text is fully rendered before measuring
-        setTimeout(drawUnderline, 30); // Slightly longer timeout
+        // Draw value for "Goals per Game"
+        svg.append('text')
+          .attr('class', 'stat-title')
+          .attr('x', titleX + lineLength - 2) // Right-justified
+          .attr('y', lineY + 16) // Below the line
+          .attr('text-anchor', 'end')
+          .text(`${winningTeam}`);
       }
     }, [finalData, originalData, winningTeam, winningTeamLogo, statCols, season]);
 

@@ -11,15 +11,12 @@
 
 .svg-container {
   width: 80%; /* visible width */
-  height: 10vh;
-  margin: 10px;
+  height: 11vh;
+  margin-top: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
   overflow-x: auto;
   overflow-y: hidden;
   flex-shrink: 0;
-}
-
-@media screen and (max-width: 1920px) { 
-  .svg-container {
-    height: 13vh; /* Increased height for smaller screens */
-  }
 }
