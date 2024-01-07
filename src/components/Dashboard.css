@@ -1,13 +1,13 @@
 /* Dashboard.css */ 
 
 @font-face {
-  font-family: 'Organetto-cndlight-edit';
-  src: url('../fonts/organetto-cndlight-edit.otf') format('opentype');
+  font-family: 'Organetto-bold-edit';
+  src: url('../fonts/organetto-bold-edit.otf') format('opentype');
 }
 
 @font-face {
-  font-family: 'Organetto-bold-edit';
-  src: url('../fonts/organetto-bold-edit.otf') format('opentype');
+  font-family: 'Organetto-cndlight-edit';
+  src: url('../fonts/organetto-cndlight-edit.otf') format('opentype');
 }
 
 .button {

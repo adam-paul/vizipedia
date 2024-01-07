@@ -99,10 +99,10 @@ const Dashboard = ({ sportName }) => {
                   dashboardTitle={dashboardTitle} />} />
           <Route path={`team/*`} 
                   element={<TeamDashboard 
-                  sportName={sportName} />} />
+                  dashboardTitle={dashboardTitle} />} />
           <Route path={`player/*`} 
                   element={<PlayerDashboard 
-                  sportName={sportName} />} />
+                  dashboardTitle={dashboardTitle} />} />
         </Routes>
 
         {isMainNHLPage && <DataTotalsPanel sportName={sportName} navigate={navigate} />}
