@@ -24,16 +24,24 @@
 
 .gpg-svg {
   font-family: 'Organetto-cndlight-edit', sans-serif;
-  width: 50%;
+  width: 45%;
   height: 100%;
   margin: 0;
   padding: 0;
 }
 
+.gpg-text:hover {
+  cursor: pointer;
+}
+
 .tp-svg {
   font-family: 'Organetto-cndlight-edit', sans-serif;
-  width: 50%;
+  width: 45%;
   height: 100%;
   margin: 0;
   padding: 0;
+}
+
+.tp-text:hover {
+  cursor: pointer;
 }

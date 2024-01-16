@@ -19,11 +19,11 @@ const StatPathViz = ({ season }) => {
           fetch(`/api/nhl/stat_path_preprocess/${formattedSeason}/`)
           .then(response => response.json())
           .then(data => {
-              setFinalData(data.final_data);
-              setOriginalData(data.original_data);
-              setWinningTeam(data.winning_team);
-              setWinningTeamLogo(data.winning_team_logo);
-              setStatCols(data.stat_cols);
+            setFinalData(data.final_data);
+            setOriginalData(data.original_data);
+            setWinningTeam(data.winning_team);
+            setWinningTeamLogo(data.winning_team_logo);
+            setStatCols(data.stat_cols);
           })
           .catch(error => console.log('There was an error fetching stat path data:', error));
       }

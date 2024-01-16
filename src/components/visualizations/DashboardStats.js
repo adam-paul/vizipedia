@@ -7,37 +7,58 @@ import * as d3 from 'd3';
 
 const DashboardStats = ({ selectedSeason }) => {
     const gpgSvgRef = useRef();
-    const tpSvgRef = useRef();    
+    const tpSvgRef = useRef(); 
+    const [numericStats, setNumericStats] = useState([]);
     const [goalsPerGameData, setGoalsPerGameData] = useState([]); 
     const [totalPointsData, setTotalPointsData] = useState([]); 
+    const [selectedGpgStat, setSelectedGpgStat] = useState('goals_per_game');
+    const [selectedTpStat, setSelectedTpStat] = useState('shots_per_game'); 
+    const [selectedGpgSeasonData, setSelectedGpgSeasonData] = useState(null);
+    const [selectedTpSeasonData, setSelectedTpSeasonData] = useState(null);
 
-    // Fetch goals per game data for selected season
+    // Functions to handle dropdown selection
+    const handleGpgStatChange = (event) => {
+      setSelectedGpgStat(event.target.value);
+    };
+
+    const handleTpStatChange = (event) => {
+      setSelectedTpStat(event.target.value);
+    };
+
+    // Fetch numeric stats for selected season
     useEffect(() => {
-      fetch(`/api/nhl/seasons_gpg/`)
+      const formattedSeason = selectedSeason.replace('-', ''); // Format the season for API endpoint
+      fetch(`/api/nhl/stat_path_preprocess/${formattedSeason}/`)
         .then(response => response.json())
         .then(data => {
-          const formattedData = Object.entries(data).map(([season, avgGoals]) => ({
-            seasons: season,
-            avgGoals
-          }));
-          setGoalsPerGameData(formattedData);
+          setNumericStats(data.stat_cols);
         })
-        .catch(error => console.log('There was an error fetching goals per game data:', error));
+        .catch(error => console.log('There was an error fetching numeric stats:', error));
     }, [selectedSeason]);
 
-    // Fetch total points data for selected season
+    // useEffect for fetching data based on selected stats
     useEffect(() => {
-      fetch(`/api/nhl/total_points/`)
-        .then(response => response.json())
-        .then(data => {
-          const formattedData = Object.entries(data).map(([season, totalPoints]) => ({
+      const fetchData = async (stat, setData, setSelectedSeasonData) => {
+        try {
+          const response = await fetch(`/api/nhl/stat_avgs/${stat}/`);
+          const data = await response.json();
+          const formattedData = Object.entries(data).map(([season, avgValue]) => ({
             seasons: season,
-            totalPoints
+            avgValue
           }));
-          setTotalPointsData(formattedData);
-        })
-        .catch(error => console.log('There was an error fetching total points data:', error));
-    }, [selectedSeason]);
+          setData(formattedData);
+      
+          // Find and set the data for the selected season
+          const seasonData = formattedData.find(d => d.seasons === selectedSeason);
+          setSelectedSeasonData(seasonData);  // Use the appropriate setter for each stat
+        } catch (error) {
+          console.log(`There was an error fetching ${stat} data:`, error);
+        }
+      };
+      
+      fetchData(selectedGpgStat, setGoalsPerGameData, setSelectedGpgSeasonData);
+      fetchData(selectedTpStat, setTotalPointsData, setSelectedTpSeasonData);
+    }, [selectedSeason, selectedGpgStat, selectedTpStat]);
 
     // Draw and populate the dashboard stats visualizations
     useEffect(() => {
@@ -57,32 +78,33 @@ const DashboardStats = ({ selectedSeason }) => {
         const gpgX = 0; // X-coordinate for Goals per Game text
         const gpgY = 20; // Y-coordinate for Goals per Game text
 
-        // Draw "Goals per Game" text
-        svg.append('text')
-            .attr('x', gpgX)
-            .attr('y', gpgY)
-            .attr('text-anchor', 'start')
-            .text('Goals per Game');
-
-        // Draw stat title underline
-        const textElement = svg.select('text'); 
-        const textWidth = textElement.node().getBBox().width;
-        const chartOffset = textWidth * 1.2;
-
-        svg.append('line')
-            .attr('x1', gpgX - 3)
-            .attr('y1', gpgY + 5) // Slightly below the text
-            .attr('x2', gpgX + chartOffset) // Length of the line
-            .attr('y2', gpgY + 5)
-            .attr('stroke', 'black')
-            .attr('stroke-width', 1);
-
-        // Draw value for "Goals per Game"
-        svg.append('text')
-            .attr('x', gpgX + chartOffset - 2) // Right-justified
-            .attr('y', gpgY + 20) // Below the line
-            .attr('text-anchor', 'end')
-            .text(selectedSeasonData ? selectedSeasonData.avgGoals.toFixed(2) : 'N/A');
+        //// Draw "Goals per Game" text
+        //svg.append('text')
+        //    .attr('class', 'gpg-text')
+        //    .attr('x', gpgX)
+        //    .attr('y', gpgY)
+        //    .attr('text-anchor', 'start')
+        //    .text('Goals per Game \u25BC');
+//
+        //// Draw stat title underline
+        //const textElement = svg.select('text'); 
+        //const textWidth = textElement.node().getBBox().width;
+        //const chartOffset = textWidth * 1.2;
+//
+        //svg.append('line')
+        //    .attr('x1', gpgX - 3)
+        //    .attr('y1', gpgY + 5) // Slightly below the text
+        //    .attr('x2', gpgX + chartOffset) // Length of the line
+        //    .attr('y2', gpgY + 5)
+        //    .attr('stroke', 'black')
+        //    .attr('stroke-width', 1);
+//
+        //// Draw value for "Goals per Game"
+        //svg.append('text')
+        //    .attr('x', gpgX + chartOffset - 2) // Right-justified
+        //    .attr('y', gpgY + 20) // Below the line
+        //    .attr('text-anchor', 'end')
+        //    .text(selectedSeasonData ? selectedSeasonData.avgValue.toFixed(2) : 'N/A');
 
         // Draw the timeline for all seasons' goals per game
         const timelineHeight = boxSize * 0.8; // New height for the timeline
@@ -96,19 +118,19 @@ const DashboardStats = ({ selectedSeason }) => {
                           .padding(0.1);
 
         const yScale = d3.scaleLinear()
-                          .domain([0, d3.max(goalsPerGameData, d => d.avgGoals)])
+                          .domain([0, d3.max(goalsPerGameData, d => d.avgValue)])
                           .range([timelineHeight - innerPadding, 0 + innerPadding]);
 
         // Line chart for average goals
         const line = d3.line()
                         .x(d => xScale(d.seasons) + xScale.bandwidth() / 2) // Center the line in the band
-                        .y(d => yScale(d.avgGoals));
+                        .y(d => yScale(d.avgValue));
 
         // Draw time series container
         svg.append('rect')
             .attr('width', timelineWidth)
             .attr('height', boxSize * 0.8)
-            .attr('x', chartOffset + margins.right)
+            .attr('x', margins.right)
             .attr('y', 0)
             .attr('rx', 4)
             .attr('ry', 4)
@@ -116,7 +138,7 @@ const DashboardStats = ({ selectedSeason }) => {
             .attr('stroke', 'black');
 
         svg.append('g')
-            .attr('transform', `translate(${chartOffset + margins.right}, 0)`)
+            .attr('transform', `translate(${margins.right}, 0)`)
             .append('path')
             .datum(goalsPerGameData)
             .attr('fill', 'none')
@@ -125,7 +147,7 @@ const DashboardStats = ({ selectedSeason }) => {
             .attr('d', line);
 
         if (selectedSeasonData) {
-          const timelineOffset = chartOffset + margins.right; // Total offset including the GPG box and margin
+          const timelineOffset = margins.right; // Total offset including the GPG box and margin
           const selectedSeasonX = xScale(selectedSeason) + timelineOffset;
           svg.append('rect')
               .attr('x', selectedSeasonX)
@@ -135,7 +157,7 @@ const DashboardStats = ({ selectedSeason }) => {
               .attr('fill', 'rgba(255, 0, 0, 0.5)'); // Semi-transparent red
         }
       }
-    }, [selectedSeason, goalsPerGameData]);
+    }, [selectedSeason, selectedGpgStat, goalsPerGameData]);
 
     useEffect(() => {
       if (totalPointsData && tpSvgRef.current) {
@@ -159,31 +181,32 @@ const DashboardStats = ({ selectedSeason }) => {
         const selectedSeasonPoints = totalPointsData.find(d => d.seasons === selectedSeason);
 
         // Add "Total Points" text
-        svg.append('text')
-            .attr('x', 0)
-            .attr('y', statY)
-            .attr('text-anchor', 'start')
-            .text('Total Points');
-
-        // Draw stat title underline
-        const textElement = svg.select('text'); 
-        const textWidth = textElement.node().getBBox().width;
-        const chartOffset = textWidth * 1.2;
-
-        svg.append('line')
-            .attr('x1', 0 - 3)
-            .attr('y1', statY + 5) // Slightly below the text
-            .attr('x2', chartOffset) // Length of the line
-            .attr('y2', statY + 5)
-            .attr('stroke', 'black')
-            .attr('stroke-width', 1);
-
-        // Draw value for "Total Points"
-        svg.append('text')
-            .attr('x', chartOffset - 2) // Right-justified
-            .attr('y', statY + 20) // Below the line
-            .attr('text-anchor', 'end')
-            .text(selectedSeasonPoints ? selectedSeasonPoints.totalPoints : 'N/A');
+        //svg.append('text')
+        //    .attr('class', 'tp-text')
+        //    .attr('x', 0)
+        //    .attr('y', statY)
+        //    .attr('text-anchor', 'start')
+        //    .text('Shots per Game \u25BC');
+//
+        //// Draw stat title underline
+        //const textElement = svg.select('text'); 
+        //const textWidth = textElement.node().getBBox().width;
+        //const chartOffset = textWidth * 1.2;
+//
+        //svg.append('line')
+        //    .attr('x1', 0 - 3)
+        //    .attr('y1', statY + 5) // Slightly below the text
+        //    .attr('x2', chartOffset) // Length of the line
+        //    .attr('y2', statY + 5)
+        //    .attr('stroke', 'black')
+        //    .attr('stroke-width', 1);
+//
+        //// Draw value for "Total Points"
+        //svg.append('text')
+        //    .attr('x', chartOffset - 2) // Right-justified
+        //    .attr('y', statY + 20) // Below the line
+        //    .attr('text-anchor', 'end')
+        //    .text(selectedSeasonPoints ? selectedSeasonPoints.avgValue.toFixed(2) : 'N/A');
         
         // Set up the scales for the Total Points timeline
         const totalPointsXScale = d3.scaleBand()
@@ -192,14 +215,14 @@ const DashboardStats = ({ selectedSeason }) => {
                                     .padding(0.1);
 
         const totalPointsYScale = d3.scaleLinear()
-                                    .domain([0, d3.max(totalPointsData, d => d.totalPoints)])
+                                    .domain([0, d3.max(totalPointsData, d => d.avgValue)])
                                     .range([timelineHeight - innerPadding, 0 + innerPadding]);
 
         // Draw the time series of total points
         svg.append('rect')
             .attr('width', timelineWidth)
             .attr('height', boxSize * 0.8)
-            .attr('x', chartOffset + margins.right)
+            .attr('x', margins.right)
             .attr('y', 0)
             .attr('rx', 4)
             .attr('ry', 4)
@@ -208,7 +231,7 @@ const DashboardStats = ({ selectedSeason }) => {
 
         // Draw the line for the Total Points time series
         svg.append('g')
-            .attr('transform', `translate(${chartOffset + margins.right}, 0)`)
+            .attr('transform', `translate(${margins.right}, 0)`)
             .append('path')
             .datum(totalPointsData)
             .attr('fill', 'none')
@@ -216,12 +239,12 @@ const DashboardStats = ({ selectedSeason }) => {
             .attr('stroke-width', 2)
             .attr('d', d3.line()
                 .x(d => totalPointsXScale(d.seasons) + totalPointsXScale.bandwidth() / 2) // Center the line in the band
-                .y(d => totalPointsYScale(d.totalPoints))
+                .y(d => totalPointsYScale(d.avgValue))
             );
 
         // Add a semi-transparent red band for the selected season
         if (selectedSeasonPoints) {
-          const selectedSeasonPointsX = totalPointsXScale(selectedSeason) + chartOffset + margins.right;
+          const selectedSeasonPointsX = totalPointsXScale(selectedSeason) + margins.right;
           svg.append('rect')
               .attr('x', selectedSeasonPointsX)
               .attr('width', 2) // Narrow width for the band
@@ -230,11 +253,35 @@ const DashboardStats = ({ selectedSeason }) => {
               .attr('fill', 'rgba(255, 0, 0, 0.5)'); // Semi-transparent red
         }
       }
-    }, [selectedSeason, totalPointsData]);
+    }, [selectedSeason, selectedTpStat, totalPointsData]);
 
     return (
       <div className="dashboard-stats">
+        <div className="stat-dropdown-container">
+          <select 
+            className="stat-dropdown" 
+            value={selectedGpgStat} 
+            onChange={handleGpgStatChange}
+          >
+            {numericStats.map((stat, index) => (
+              <option key={index} value={stat}>{stat.replace(/_/g, ' ').toUpperCase()}</option>
+            ))}
+          </select>
+          <div className="stat-value">{selectedGpgSeasonData ? selectedGpgSeasonData.avgValue.toFixed(2) : 'N/A'}</div>
+        </div>
         <svg ref={gpgSvgRef} />
+        <div className="stat-dropdown-container">
+          <select 
+            className="stat-dropdown" 
+            value={selectedTpStat} 
+            onChange={handleTpStatChange}
+          >
+            {numericStats.map((stat, index) => (
+              <option key={index} value={stat}>{stat.replace(/_/g, ' ').toUpperCase()}</option>
+            ))}
+          </select>
+          <div className="stat-value">{selectedTpSeasonData ? selectedTpSeasonData.avgValue.toFixed(2) : 'N/A'}</div>
+        </div>
         <svg ref={tpSvgRef} />
       </div>
     );
