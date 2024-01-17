@@ -75,40 +75,10 @@ const DashboardStats = ({ selectedSeason }) => {
         // Draw Goals Per Game box for selected season
         const boxSize = 120; // Size of the square box for Goals per Game
         const selectedSeasonData = goalsPerGameData.find(d => d.seasons === selectedSeason);
-        const gpgX = 0; // X-coordinate for Goals per Game text
-        const gpgY = 20; // Y-coordinate for Goals per Game text
-
-        //// Draw "Goals per Game" text
-        //svg.append('text')
-        //    .attr('class', 'gpg-text')
-        //    .attr('x', gpgX)
-        //    .attr('y', gpgY)
-        //    .attr('text-anchor', 'start')
-        //    .text('Goals per Game \u25BC');
-//
-        //// Draw stat title underline
-        //const textElement = svg.select('text'); 
-        //const textWidth = textElement.node().getBBox().width;
-        //const chartOffset = textWidth * 1.2;
-//
-        //svg.append('line')
-        //    .attr('x1', gpgX - 3)
-        //    .attr('y1', gpgY + 5) // Slightly below the text
-        //    .attr('x2', gpgX + chartOffset) // Length of the line
-        //    .attr('y2', gpgY + 5)
-        //    .attr('stroke', 'black')
-        //    .attr('stroke-width', 1);
-//
-        //// Draw value for "Goals per Game"
-        //svg.append('text')
-        //    .attr('x', gpgX + chartOffset - 2) // Right-justified
-        //    .attr('y', gpgY + 20) // Below the line
-        //    .attr('text-anchor', 'end')
-        //    .text(selectedSeasonData ? selectedSeasonData.avgValue.toFixed(2) : 'N/A');
 
         // Draw the timeline for all seasons' goals per game
         const timelineHeight = boxSize * 0.8; // New height for the timeline
-        const timelineWidth = svgWidth - boxSize - margins.right - margins.left; // Adjusted width
+        const timelineWidth = svgWidth - margins.right - margins.left; // Adjusted width
         const innerPadding = 8;
 
         // Scales for the line chart
@@ -166,47 +136,16 @@ const DashboardStats = ({ selectedSeason }) => {
 
         // Create SVG element
         const svg = d3.select(tpSvgRef.current)
-                      .attr('class', 'tp-svg')
+                      .attr('class', 'gpg-svg')
         const svgWidth = tpSvgRef.current.getBoundingClientRect().width;
         const margins = { top: 20, right: 10, bottom: 20, left: 20 };
         const boxSize = 120; // Size of the square box for Total Points
         const timelineHeight = boxSize * 0.8; // New height for the timeline
-        const timelineWidth = svgWidth - boxSize - margins.right - margins.left; // Adjusted width
+        const timelineWidth = svgWidth - margins.right - margins.left; // Adjusted width
         const innerPadding = 8;
-
-        // x-y coordinates
-        const statY = 20;
 
         // Draw Total Points box for selected season
         const selectedSeasonPoints = totalPointsData.find(d => d.seasons === selectedSeason);
-
-        // Add "Total Points" text
-        //svg.append('text')
-        //    .attr('class', 'tp-text')
-        //    .attr('x', 0)
-        //    .attr('y', statY)
-        //    .attr('text-anchor', 'start')
-        //    .text('Shots per Game \u25BC');
-//
-        //// Draw stat title underline
-        //const textElement = svg.select('text'); 
-        //const textWidth = textElement.node().getBBox().width;
-        //const chartOffset = textWidth * 1.2;
-//
-        //svg.append('line')
-        //    .attr('x1', 0 - 3)
-        //    .attr('y1', statY + 5) // Slightly below the text
-        //    .attr('x2', chartOffset) // Length of the line
-        //    .attr('y2', statY + 5)
-        //    .attr('stroke', 'black')
-        //    .attr('stroke-width', 1);
-//
-        //// Draw value for "Total Points"
-        //svg.append('text')
-        //    .attr('x', chartOffset - 2) // Right-justified
-        //    .attr('y', statY + 20) // Below the line
-        //    .attr('text-anchor', 'end')
-        //    .text(selectedSeasonPoints ? selectedSeasonPoints.avgValue.toFixed(2) : 'N/A');
         
         // Set up the scales for the Total Points timeline
         const totalPointsXScale = d3.scaleBand()

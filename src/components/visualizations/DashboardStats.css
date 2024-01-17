@@ -7,11 +7,18 @@
 
 .dashboard-stats {
   display: flex;
-  gap: 5%;
   width: 95%;
   height: 15%;
   margin-top: 20px;
   margin-left: 10px;
+}
+
+.gpg-svg {
+  font-family: 'Organetto-cndlight-edit', sans-serif;
+  width: 40%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 .stat-container {
@@ -22,26 +29,37 @@
   padding: 0;
 }
 
-.gpg-svg {
+.stat-dropdown-container {
+  display: flex;
+  flex-direction: column;
+  width: 18%;
+}
+
+.stat-dropdown {
+  padding: 4px 8px;
   font-family: 'Organetto-cndlight-edit', sans-serif;
-  width: 45%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-.gpg-text:hover {
+  font-size: 16px; /* Adjust font size as needed */
+  margin-bottom: 5px;
   cursor: pointer;
+  border: 1px solid #000; /* Adjust border as needed */
+  border-radius: 4px;
+  background-color: white;
+  -webkit-appearance: none; /* Removes default styling on webkit browsers */
+  -moz-appearance: none; /* Removes default styling on Firefox browsers */
+  appearance: none; /* Removes default styling */
 }
 
-.tp-svg {
+.stat-dropdown:after {
+  content: '\u25BC'; /* Down arrow */
+  font-size: 10px;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  pointer-events: none;
+}
+
+.stat-value {
   font-family: 'Organetto-cndlight-edit', sans-serif;
-  width: 45%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-.tp-text:hover {
-  cursor: pointer;
+  font-size: 20px; /* Adjust font size as needed */
+  padding-left: 10px; /* Adjust padding as needed */
 }
