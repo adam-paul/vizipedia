@@ -207,6 +207,7 @@ const DashboardStats = ({ selectedSeason }) => {
             ))}
           </select>
           <div className="stat-value">{selectedGpgSeasonData ? selectedGpgSeasonData.avgValue.toFixed(2) : 'N/A'}</div>
+          <div className="seasonal-average-text">Season Average</div>
         </div>
         <svg ref={gpgSvgRef} />
         <div className="stat-dropdown-container">
@@ -220,6 +221,7 @@ const DashboardStats = ({ selectedSeason }) => {
             ))}
           </select>
           <div className="stat-value">{selectedTpSeasonData ? selectedTpSeasonData.avgValue.toFixed(2) : 'N/A'}</div>
+          <div className="seasonal-average-text">Season Average</div>
         </div>
         <svg ref={tpSvgRef} />
       </div>

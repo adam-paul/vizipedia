@@ -57,6 +57,17 @@
 
 .stat-value {
   font-family: 'Organetto-cndlight-edit', sans-serif;
-  font-size: 20px; /* Adjust font size as needed */
-  padding-left: 10px; /* Adjust padding as needed */
+  font-size: 24px; 
+  font-weight: bold;
+  color: hsl(207, 44%, 30%);
+  text-align: center;
+  margin: 0;
+}
+
+.seasonal-average-text {
+  font-family: 'Organetto-cndlight-edit', sans-serif;
+  font-size: 12px; /* Smaller font size for the subtext */
+  text-align: center; /* Center the subtext */
+  color: #777; /* Lighter text color for the subtext */
+  margin-top: -5px; /* Adjust the margin to bring the subtext closer to the value */
 }
