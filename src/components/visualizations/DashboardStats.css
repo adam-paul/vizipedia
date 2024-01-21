@@ -38,15 +38,12 @@
 .stat-dropdown {
   padding: 4px 8px;
   font-family: 'Organetto-cndlight-edit', sans-serif;
-  font-size: 16px; /* Adjust font size as needed */
+  font-size: 15px; 
   margin-bottom: 5px;
   cursor: pointer;
-  border: 1px solid #000; /* Adjust border as needed */
+  border: 1px solid #000; 
   border-radius: 4px;
   background-color: white;
-  -webkit-appearance: none; /* Removes default styling on webkit browsers */
-  -moz-appearance: none; /* Removes default styling on Firefox browsers */
-  appearance: none; /* Removes default styling */
 }
 
 .stat-dropdown:after {
