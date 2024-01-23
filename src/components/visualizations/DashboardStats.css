@@ -15,10 +15,29 @@
 
 .gpg-svg {
   font-family: 'Organetto-cndlight-edit', sans-serif;
-  width: 40%;
+  width: 35%;
   height: 100%;
   margin: 0;
   padding: 0;
+}
+
+.help-button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin-top: -5px;
+  font-family: 'Organetto-cndlight-edit', sans-serif;
+  cursor: pointer;
+  color: hsl(207, 44%, 30%);
+  text-align: left;
+}
+
+.seasonal-average-text {
+  font-family: 'Organetto-cndlight-edit', sans-serif;
+  font-size: 12px; 
+  text-align: center; 
+  color: #777; 
+  margin-top: -5px; /* Adjust the margin to bring the subtext closer to the value */
 }
 
 .stat-container {
@@ -32,13 +51,13 @@
 .stat-dropdown-container {
   display: flex;
   flex-direction: column;
-  width: 18%;
+  width: 16%;
 }
 
 .stat-dropdown {
   padding: 4px 8px;
   font-family: 'Organetto-cndlight-edit', sans-serif;
-  font-size: 15px; 
+  font-size: 14px; 
   margin-bottom: 5px;
   cursor: pointer;
   border: 1px solid #000; 
@@ -55,19 +74,17 @@
   pointer-events: none;
 }
 
+.stat-header {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
 .stat-value {
   font-family: 'Organetto-cndlight-edit', sans-serif;
   font-size: 24px; 
   font-weight: bold;
   color: hsl(207, 44%, 30%);
-  text-align: center;
-  margin: 0;
-}
-
-.seasonal-average-text {
-  font-family: 'Organetto-cndlight-edit', sans-serif;
-  font-size: 12px; /* Smaller font size for the subtext */
-  text-align: center; /* Center the subtext */
-  color: #777; /* Lighter text color for the subtext */
-  margin-top: -5px; /* Adjust the margin to bring the subtext closer to the value */
 }

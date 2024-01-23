@@ -166,10 +166,21 @@ const StatPathViz = ({ season }) => {
         const titleText = svg.select('.stat-title');
         const titleTextWidth = titleText.node().getBBox().width;
         const titleX = (margins.left / 2) - 3;
-
+        
         // Drawing the underline for the title text
         const lineLength = titleTextWidth * 1.1; // Extend the line a bit longer than the text
         const lineY = margins.top / 2 + 5; // Position the line slightly below the text
+
+        svg.append('text')
+            .attr('class', 'help-icon')
+            .attr('x', 0)
+            .attr('y', lineY + 17)
+            .attr('text-anchor', 'left')
+            .text('?') // Here you can use a Unicode character for a specific icon if you have one
+            .on('click', function() {
+              // Define the click event for the icon here
+              // For example, display a tooltip or open a modal with information
+            });
 
         svg.append('line')
           .attr('x1', -3)

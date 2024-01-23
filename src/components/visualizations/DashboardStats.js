@@ -206,7 +206,10 @@ const DashboardStats = ({ selectedSeason }) => {
               <option key={index} value={stat}>{stat.replace(/_/g, ' ').toUpperCase()}</option>
             ))}
           </select>
-          <div className="stat-value">{selectedGpgSeasonData ? selectedGpgSeasonData.avgValue.toFixed(2) : 'N/A'}</div>
+          <div className="stat-header">
+            <div className="help-button">?</div>
+            <div className="stat-value">{selectedGpgSeasonData ? selectedGpgSeasonData.avgValue.toFixed(2) : 'N/A'}</div>
+          </div>
           <div className="seasonal-average-text">Season Average</div>
         </div>
         <svg ref={gpgSvgRef} />
@@ -220,7 +223,10 @@ const DashboardStats = ({ selectedSeason }) => {
               <option key={index} value={stat}>{stat.replace(/_/g, ' ').toUpperCase()}</option>
             ))}
           </select>
-          <div className="stat-value">{selectedTpSeasonData ? selectedTpSeasonData.avgValue.toFixed(2) : 'N/A'}</div>
+          <div className="stat-header">
+            <div className="help-button">?</div>
+            <div className="stat-value">{selectedTpSeasonData ? selectedTpSeasonData.avgValue.toFixed(2) : 'N/A'}</div>
+          </div>
           <div className="seasonal-average-text">Season Average</div>
         </div>
         <svg ref={tpSvgRef} />

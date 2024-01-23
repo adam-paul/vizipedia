@@ -5,6 +5,12 @@
   src: url('../../fonts/organetto-cndlight-edit.otf') format('opentype');
 }
 
+.help-icon {
+  font-family: 'Organetto-cndlight-edit', sans-serif;
+  cursor: pointer;
+  fill: hsl(207, 44%, 30%); /* Or any other color */
+}
+
 svg {
   overflow: visible;
 }
