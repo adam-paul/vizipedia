@@ -5,7 +5,7 @@ import './DashboardStats.css';
 import React, { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
 
-const DashboardStats = ({ selectedSeason }) => {
+const DashboardStats = ({ selectedSeason, onHelpClick }) => {
     const gpgSvgRef = useRef();
     const tpSvgRef = useRef(); 
     const [numericStats, setNumericStats] = useState([]);
@@ -207,7 +207,7 @@ const DashboardStats = ({ selectedSeason }) => {
             ))}
           </select>
           <div className="stat-header">
-            <div className="help-button">?</div>
+            <div className="help-button" onClick={() => onHelpClick()}>?</div>
             <div className="stat-value">{selectedGpgSeasonData ? selectedGpgSeasonData.avgValue.toFixed(2) : 'N/A'}</div>
           </div>
           <div className="seasonal-average-text">Season Average</div>
@@ -224,7 +224,7 @@ const DashboardStats = ({ selectedSeason }) => {
             ))}
           </select>
           <div className="stat-header">
-            <div className="help-button">?</div>
+            <div className="help-button" onClick={() => onHelpClick()}>?</div>
             <div className="stat-value">{selectedTpSeasonData ? selectedTpSeasonData.avgValue.toFixed(2) : 'N/A'}</div>
           </div>
           <div className="seasonal-average-text">Season Average</div>

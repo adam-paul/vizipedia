@@ -32,6 +32,10 @@
   text-align: left;
 }
 
+.help-button:hover {
+  filter: brightness(1.35); /* Increase brightness */
+}
+
 .seasonal-average-text {
   font-family: 'Organetto-cndlight-edit', sans-serif;
   font-size: 12px; 

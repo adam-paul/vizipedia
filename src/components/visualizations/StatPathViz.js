@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
 import './StatPathViz.css';
 
-const StatPathViz = ({ season }) => {
+const StatPathViz = ({ season, onHelpClick }) => {
     const svgRef = useRef();  // Create a reference for the SVG element
     const [finalData, setFinalData] = useState([]);
     const [originalData, setOriginalData] = useState([]);
@@ -176,10 +176,11 @@ const StatPathViz = ({ season }) => {
             .attr('x', 0)
             .attr('y', lineY + 17)
             .attr('text-anchor', 'left')
-            .text('?') // Here you can use a Unicode character for a specific icon if you have one
+            .text('?') 
             .on('click', function() {
-              // Define the click event for the icon here
-              // For example, display a tooltip or open a modal with information
+              if (onHelpClick) {
+                onHelpClick();
+              }
             });
 
         svg.append('line')
@@ -198,7 +199,7 @@ const StatPathViz = ({ season }) => {
           .attr('text-anchor', 'end')
           .text(`${winningTeam}`);
       }
-    }, [finalData, originalData, winningTeam, winningTeamLogo, statCols, season]);
+    }, [finalData, originalData, winningTeam, winningTeamLogo, statCols, season, onHelpClick]);
 
     return (
       <div className="stat-window">

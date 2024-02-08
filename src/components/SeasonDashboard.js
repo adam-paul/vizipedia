@@ -6,6 +6,7 @@ import React, { useState, useEffect } from 'react';
 import SeasonTimeline from './visualizations/SeasonTimeline';
 import DashboardStats from './visualizations/DashboardStats';
 import StatPathViz from './visualizations/StatPathViz';
+import HelpSidebar from './HelpSidebar';
 
 // Memoized season select option
 const MemoizedOption = React.memo(({ value }) => <option value={value}>{value}</option>);
@@ -13,6 +14,8 @@ const MemoizedOption = React.memo(({ value }) => <option value={value}>{value}</
 const SeasonDashboard = ({ sportName, dashboardTitle }) => {
     const [selectedSeason, setSelectedSeason] = useState('');
     const [seasons, setSeasons] = useState([]); // Holds all seasons
+    const [isHelpSidebarOpen, setIsHelpSidebarOpen] = useState(false);
+    const [helpContent, setHelpContent] = useState('');
 
     // Function to handle season selection
     const handleSeasonChange = (event) => {
@@ -23,6 +26,35 @@ const SeasonDashboard = ({ sportName, dashboardTitle }) => {
     const handleSeasonChangeFromTimeline = (newSeason) => {
       setSelectedSeason(newSeason);
     };
+
+    // Function to open the help sidebar with specific content
+    const openHelpSidebar = (content) => {
+      setHelpContent(content);
+      setIsHelpSidebarOpen(true);
+    };
+
+    // Function to close the help sidebar
+    const closeHelpSidebar = () => {
+      setIsHelpSidebarOpen(false);
+    };
+
+    // Event listener for ESC key
+    useEffect(() => {
+      const handleKeyDown = (event) => {
+          // Check if ESC key is pressed
+          if (event.keyCode === 27) {
+              closeHelpSidebar();
+          }
+      };
+
+      // Add event listener when the component mounts
+      window.addEventListener('keydown', handleKeyDown);
+
+      // Remove event listener on cleanup
+      return () => {
+          window.removeEventListener('keydown', handleKeyDown);
+      };
+    }, []);
 
     // Fetch all unique seasons
     useEffect(() => {
@@ -55,9 +87,18 @@ const SeasonDashboard = ({ sportName, dashboardTitle }) => {
         />
         <DashboardStats 
           selectedSeason={selectedSeason} 
+          onHelpClick={() => openHelpSidebar("Your explanatory content here for DashboardStats")}
         />
         <StatPathViz 
           season={selectedSeason} 
+          onHelpClick={() => openHelpSidebar("Your explanatory content here for StatPathViz")}
+        />
+
+        {/* Help sidebar */}
+        <HelpSidebar
+          isOpen={isHelpSidebarOpen}
+          content={helpContent}
+          onClose={closeHelpSidebar}
         />
 
         {/* Page footer */}
