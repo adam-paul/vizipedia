@@ -87,17 +87,17 @@ const SeasonDashboard = ({ sportName, dashboardTitle }) => {
         />
         <DashboardStats 
           selectedSeason={selectedSeason} 
-          onHelpClick={() => openHelpSidebar("Your explanatory content here for DashboardStats")}
+          onHelpClick={() => openHelpSidebar("DashboardStats.md")}
         />
         <StatPathViz 
           season={selectedSeason} 
-          onHelpClick={() => openHelpSidebar("Your explanatory content here for StatPathViz")}
+          onHelpClick={() => openHelpSidebar("StatPathViz.md")}
         />
 
         {/* Help sidebar */}
         <HelpSidebar
           isOpen={isHelpSidebarOpen}
-          content={helpContent}
+          markdownFileName={helpContent}
           onClose={closeHelpSidebar}
         />
 

@@ -5,7 +5,20 @@
   src: url('../fonts/organetto-bold-edit.otf') format('opentype');
 }
 
+@font-face {
+  font-family: 'Organetto-cndlight-edit';
+  src: url('../fonts/organetto-cndlight-edit.otf') format('opentype');
+}
+
+.about {
+  font-family: 'Organetto-bold-edit', sans-serif;
+}
+
 .help-sidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
   position: fixed;
   top: 0;
   right: -100%; /* Start off-screen */
@@ -28,7 +41,14 @@
   right: 10px;
 }
 
-.content {
+.help-content {
   padding: 20px;
+  padding-top: 5px;
+  background-color: white;
+  border: 2px solid black;
+  border-radius: 6px;
+  overflow-y: auto;
+  max-height: 85%;
+  width: 90%; 
 }
   
