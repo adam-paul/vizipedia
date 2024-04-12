@@ -1,0 +1,22 @@
+/* SeasonTimeline.css */ 
+
+.logo-panel {
+  transition: filter 0.1s ease; /* Smooth transition for the filter effect */
+}
+
+.logo-panel:hover {
+  filter: brightness(1.35); 
+  cursor: pointer;
+}
+
+.svg-container {
+  width: 80%; /* visible width */
+  height: 11vh;
+  margin-top: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  flex-shrink: 0;
+}

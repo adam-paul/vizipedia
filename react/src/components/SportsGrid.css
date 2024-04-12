@@ -1,0 +1,137 @@
+/* SportsGrid.css */
+
+@font-face {
+  font-family: 'Organetto-cndlight-edit';
+  src: url('../fonts/organetto-cndlight-edit.otf') format('opentype');
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.background-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-blend-mode: multiply;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.column {
+  float: left;
+  width: 25%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease-in-out;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  cursor: pointer;
+}
+
+.center-content {
+  position: relative;
+  z-index: 1;
+}
+
+.column:hover {
+  transform: scale(1.05);
+  z-index: 2;
+  filter: brightness(1.2);
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.logo {
+  max-width: 90%;
+  max-height: 87vh;
+}
+
+.mlb-logo {
+  max-width: 80%; /* Smaller width */
+}
+
+.nba-logo {
+  max-width: 70%; /* Smaller width */
+  transform: translateY(5%); /* Slightly lower position */
+}
+
+.nfl-logo {
+  max-width: 65%; /* Smaller width */
+  transform: translateY(5%); /* Slightly lower position */
+}
+
+.nhl-logo {
+  max-width: 80%; /* Smaller width */
+  transform: translateY(5%); /* Slightly lower position */
+}
+
+.hovered::before { /* Add this block */
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.lock-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  text-align: center;
+  pointer-events: none;
+}
+
+.lock-icon {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  background-size: contain;
+  color: grey;
+  opacity: 0.5;
+}
+
+.coming-soon-text {
+  display: block;
+  margin-top: 10px;
+  color: rgb(48, 48, 48);
+  font-weight: bold;
+  font-size: 18px;
+  font-family: 'Organetto-cndlight-edit', sans-serif;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+  opacity: 0;  /* Hidden */
+}
+
+.column:hover .lock-icon {
+  opacity: 0.9;
+}
+
+.column:hover .coming-soon-text {
+  opacity: 0.9;
+}
+
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+  }
+}

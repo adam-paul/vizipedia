@@ -1,0 +1,94 @@
+/* DashboardStats.css */
+
+@font-face {
+  font-family: 'Organetto-cndlight-edit';
+  src: url('../../fonts/organetto-cndlight-edit.otf') format('opentype');
+}
+
+.dashboard-stats {
+  display: flex;
+  width: 95%;
+  height: 15%;
+  margin-top: 20px;
+  margin-left: 10px;
+}
+
+.gpg-svg {
+  font-family: 'Organetto-cndlight-edit', sans-serif;
+  width: 35%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.help-button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin-top: -5px;
+  font-family: 'Organetto-cndlight-edit', sans-serif;
+  cursor: pointer;
+  color: hsl(207, 44%, 30%);
+  text-align: left;
+}
+
+.help-button:hover {
+  filter: brightness(1.35); /* Increase brightness */
+}
+
+.seasonal-average-text {
+  font-family: 'Organetto-cndlight-edit', sans-serif;
+  font-size: 12px; 
+  text-align: center; 
+  color: #777; 
+  margin-top: -5px; /* Adjust the margin to bring the subtext closer to the value */
+}
+
+.stat-container {
+  font-family: 'Organetto-cndlight-edit', sans-serif;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.stat-dropdown-container {
+  display: flex;
+  flex-direction: column;
+  width: 16%;
+}
+
+.stat-dropdown {
+  padding: 4px 8px;
+  font-family: 'Organetto-cndlight-edit', sans-serif;
+  font-size: 14px; 
+  margin-bottom: 5px;
+  cursor: pointer;
+  border: 1px solid #000; 
+  border-radius: 4px;
+  background-color: white;
+}
+
+.stat-dropdown:after {
+  content: '\u25BC'; /* Down arrow */
+  font-size: 10px;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  pointer-events: none;
+}
+
+.stat-header {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.stat-value {
+  font-family: 'Organetto-cndlight-edit', sans-serif;
+  font-size: 24px; 
+  font-weight: bold;
+  color: hsl(207, 44%, 30%);
+}
