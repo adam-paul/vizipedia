@@ -1,2 +1,2 @@
 web: npm start
-release: python manage.py collectstatic --noinput
+release: cd backend && python manage.py collectstatic --noinput
