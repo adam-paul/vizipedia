@@ -126,10 +126,12 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATIC_URL = "static/"
 
+REACT_APP_DIR = os.path.join(BASE_DIR, '..', 'frontend')
+
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = [
-    os.path.join(os.path.dirname(os.path.dirname(BASE_DIR)), 'frontend/build/static'),
-    os.path.join(os.path.dirname(os.path.dirname(BASE_DIR)), 'frontend/build/markdown'),
+    os.path.join(REACT_APP_DIR, 'build', 'static'),
+    os.path.join(REACT_APP_DIR, 'build', 'markdown'),
 ]
 
 # Configure Django to use the STATICFILES_DIRS setting to find static file directories
