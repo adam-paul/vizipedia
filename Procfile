@@ -1,1 +1,1 @@
-web: gunicorn django.vizipedia.wsgi --log-file -
+web: cd react && npm install && npm run build && cd .. && gunicorn django.vizipedia.wsgi --log-file -
