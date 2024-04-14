@@ -13,7 +13,7 @@ if [ ! -d "build/static" ] || [ ! -d "build/markdown" ]; then
   exit 1
 fi
 
-# Navigate back to root and run collectstatic
+# Back to root and run collectstatic
 cd ..
 python backend/manage.py collectstatic --noinput
 
