@@ -2,7 +2,7 @@
     "name": "vizipedia-heroku",
     "version": "1.0.0",
     "scripts": {
-      "start": "./deploy-build.sh"
+      "start": "bash deploy-build.sh"
     },
     "dependencies": {
       "serve": "^11.3.2"
