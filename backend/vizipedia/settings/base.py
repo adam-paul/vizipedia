@@ -63,7 +63,7 @@ ROOT_URLCONF = "vizipedia.vizipedia.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join(os.path.dirname(os.path.dirname(BASE_DIR)), 'react/build')],
+        "DIRS": [os.path.join(os.path.dirname(os.path.dirname(BASE_DIR)), 'frontend/build')],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -128,8 +128,8 @@ STATIC_URL = "static/"
 
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = [
-    os.path.join(os.path.dirname(os.path.dirname(BASE_DIR)), 'react/build/static'),
-    os.path.join(os.path.dirname(os.path.dirname(BASE_DIR)), 'react/build/markdown'),
+    os.path.join(os.path.dirname(os.path.dirname(BASE_DIR)), 'frontend/build/static'),
+    os.path.join(os.path.dirname(os.path.dirname(BASE_DIR)), 'frontend/build/markdown'),
 ]
 
 # Configure Django to use the STATICFILES_DIRS setting to find static file directories
