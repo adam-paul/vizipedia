@@ -1,1 +1,2 @@
-web: cd react && npm install && npm run build && cd .. && gunicorn django.vizipedia.wsgi --log-file -
+release: cd backend && python manage.py collectstatic --noinput
+web: gunicorn backend.vizipedia.wsgi --log-file -

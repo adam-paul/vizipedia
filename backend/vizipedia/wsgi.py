@@ -12,6 +12,6 @@ import os, sys
 from django.core.wsgi import get_wsgi_application
 
 sys.path.append('vizipedia/')
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "django.vizipedia.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "backend.vizipedia.settings")
 
 application = get_wsgi_application()
