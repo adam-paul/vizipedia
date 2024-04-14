@@ -126,7 +126,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATIC_URL = "static/"
 
-REACT_APP_DIR = os.path.join(os.path.dirname(os.path.dirname(BASE_DIR)), 'frontend')
+#REACT_APP_DIR = os.path.join(os.path.dirname(os.path.dirname(BASE_DIR)), 'frontend')
+REACT_APP_DIR = os.path.dirname(os.path.dirname(BASE_DIR))
 
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = [
