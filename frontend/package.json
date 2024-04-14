@@ -26,10 +26,10 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "cd frontend && serve -s build",
-    "build": "cd frontend && react-scripts build",
-    "test": "cd frontend && react-scripts test",
-    "eject": "cd frontend && react-scripts eject"
+    "start": "serve -s build",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "&& react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
