@@ -8,8 +8,6 @@ pandas
 dash
 flask
 matplotlib
-dash-bootstrap-components
-plotly
 sqlalchemy
 psycopg2-binary
 statsmodels

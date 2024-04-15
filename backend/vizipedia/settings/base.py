@@ -58,7 +58,7 @@ MIDDLEWARE = [
     "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
-ROOT_URLCONF = "vizipedia.vizipedia.urls"
+ROOT_URLCONF = "backend.vizipedia.urls"
 
 TEMPLATES = [
     {
