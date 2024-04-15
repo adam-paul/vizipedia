@@ -15,7 +15,9 @@ fi
 
 # Back to root and run collectstatic
 cd ..
-python backend/manage.py collectstatic --noinput
+cd backend
+python manage.py collectstatic --noinput
 
 # Start the server with Gunicorn
+cd ..
 gunicorn backend.vizipedia.wsgi --log-file -

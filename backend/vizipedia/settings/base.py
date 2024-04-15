@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "corsheaders",
-    "backend.mlb",
+    "mlb",
     "nba",
     "nfl",
     "nhl",
