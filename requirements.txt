@@ -2,12 +2,9 @@ openai
 attrs
 black
 isort
-ipython
 numpy
 pandas
-dash
 flask
-matplotlib
 sqlalchemy
 psycopg2-binary
 statsmodels
