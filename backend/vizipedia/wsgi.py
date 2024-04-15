@@ -12,8 +12,8 @@ import os, sys
 from django.core.wsgi import get_wsgi_application
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.append(BASE_DIR)
+sys.path.append(os.path.join(BASE_DIR, 'backend'))
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "vizipedia.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "backend.vizipedia.settings")
 
 application = get_wsgi_application()
