@@ -5,7 +5,6 @@ isort
 ipython
 numpy
 pandas
-plotly
 dash
 flask
 matplotlib
