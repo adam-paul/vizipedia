@@ -40,10 +40,10 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "corsheaders",
-    "mlb",
-    "nba",
-    "nfl",
-    "nhl",
+    "backend.mlb",
+    "backend.nba",
+    "backend.nfl",
+    "backend.nhl",
 ]
 
 MIDDLEWARE = [
