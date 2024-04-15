@@ -1,1 +1,1 @@
-web: bash deploy-build.sh
+web: npm start
