@@ -1,7 +1,5 @@
 openai
 attrs
-black
-isort
 numpy
 pandas
 flask
