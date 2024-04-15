@@ -20,7 +20,7 @@ python manage.py collectstatic --noinput
 
 # Start the server with Gunicorn
 cd ..
-gunicorn backend.vizipedia.wsgi --log-file -D
+gunicorn backend.vizipedia.wsgi -D
 
 # Indicate successful completion
 echo "Deployment completed successfully."
