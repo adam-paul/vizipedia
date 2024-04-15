@@ -2,7 +2,6 @@ openai
 attrs
 numpy
 pandas
-flask
 sqlalchemy
 psycopg2-binary
 statsmodels
