@@ -13,11 +13,6 @@ if [ ! -d "build/static" ] || [ ! -d "build/markdown" ]; then
   exit 1
 fi
 
-# Back to root and run collectstatic
-cd ..
-cd backend
-python manage.py collectstatic --noinput
-
 # Start the server with Gunicorn
 cd ..
 gunicorn backend.vizipedia.wsgi -D

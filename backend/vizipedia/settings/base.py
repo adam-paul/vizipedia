@@ -24,11 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "django-insecure-e@2$k=jlpkm=g%9p#c@m*0ra%1acd14ete(=x%-vh2wz@&v73("
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -127,7 +123,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = "static/"
 
 REACT_APP_DIR = os.path.join(os.path.dirname(os.path.dirname(BASE_DIR)), 'frontend')
-#REACT_APP_DIR = os.path.dirname(os.path.dirname(BASE_DIR))
 
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = [
