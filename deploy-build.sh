@@ -13,8 +13,13 @@ if [ ! -d "build/static" ] || [ ! -d "build/markdown" ]; then
   exit 1
 fi
 
+# Navigate to the build/static directory and print the current working directory
+cd build/static
+echo "Current directory for build/static is:"
+pwd
+
 # Start the server with Gunicorn
-cd ..
+cd ../../../
 gunicorn backend.vizipedia.wsgi -D
 
 # Indicate successful completion
