@@ -36,10 +36,10 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "corsheaders",
-    "backend.mlb",
-    "backend.nba",
-    "backend.nfl",
-    "backend.nhl",
+    "mlb",
+    "nba",
+    "nfl",
+    "nhl",
 ]
 
 MIDDLEWARE = [
@@ -59,7 +59,7 @@ ROOT_URLCONF = "backend.vizipedia.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join(os.path.dirname(os.path.dirname(BASE_DIR)), 'frontend/build')],
+        "DIRS": [os.path.join(os.path.dirname(os.path.dirname(BASE_DIR)), 'build')],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [

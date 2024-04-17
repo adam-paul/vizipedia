@@ -24,10 +24,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # API routes
-    path('api/mlb/', include('backend.mlb.urls')),
-    path('api/nba/', include('backend.nba.urls')),
-    path('api/nfl/', include('backend.nfl.urls')),
-    path('api/nhl/', include('backend.nhl.urls')),
+    path('api/mlb/', include('mlb.urls')),
+    path('api/nba/', include('nba.urls')),
+    path('api/nfl/', include('nfl.urls')),
+    path('api/nhl/', include('nhl.urls')),
 
     # Catch-all routes to serve React app
     path('', TemplateView.as_view(template_name='index.html')),
