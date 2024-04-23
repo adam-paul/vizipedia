@@ -98,7 +98,8 @@ const StatPathViz = ({ season, onHelpClick }) => {
                 .on("mouseover", function(d) {
                   const svgRect = svgRef.current.getBoundingClientRect(); // SVG coords
                   const xPosition = svgRect.left + logoX + 25; 
-                  const yPosition = svgRect.top + logoY - 20;
+                  const yOffsetPercentage = 10;
+                  const yPosition = svgRect.top + (svgRect.height * yOffsetPercentage / 100);
               
                   // Sort finalData based on the normalized value of the hovered stat
                   const sortedTeams = [...finalData].sort((a, b) => b[stat] - a[stat]);
